@@ -1,0 +1,3 @@
+[submodule "vendor/assets/javascripts/gina-map-layers"]
+	path = vendor/assets/javascripts/gina-map-layers
+	url = https://github.com/gina-alaska/gina-map-layers.git

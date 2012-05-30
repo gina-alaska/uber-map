@@ -1,0 +1,70 @@
+# Place all the behaviors and hooks related to the matching controller here.
+# All this logic will automatically be available in application.js.
+# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+$(document).ready ->
+  uber = new UberMap()
+  uber.init()
+
+class MapRequest
+  constructor: (params) ->
+    @params = params
+    
+  send: () ->
+    $.ajax('/map/new', {
+      data: @params
+    }).done (data) => 
+      $('#request-windows').empty()
+      $('#request-windows').append(data)
+      $('#request-windows .modal').modal({ backdrop: 'static' })
+
+class UberMap
+  init: () ->
+    $('#map-buttons .btn').button()
+  
+    config = Gina.Projections.get 'EPSG:3338'
+  
+    @map = new OpenLayers.Map {
+      div: 'map',
+      projection: config.projection,
+      maxExtent: config.maxExtent,
+      maxResolution: config.maxResolution,
+      units: config.units,
+    
+      controls: [
+          new OpenLayers.Control.Navigation(),
+          new OpenLayers.Control.PanZoom(),
+          new OpenLayers.Control.Attribution()
+      ],
+      numZoomLevels: 18
+    }
+    
+    Gina.Layers.inject @map, 'TILE.EPSG:3338.*'
+    
+    @aoiLayer = new OpenLayers.Layer.Vector('aoi')
+    @map.addLayer(@aoiLayer)
+  
+    @aoiHandler = new OpenLayers.Control.DrawFeature(@aoiLayer, OpenLayers.Handler.RegularPolygon, {
+      eventListeners: {
+        featureadded: (event) =>
+          @aoiAdd(event.feature)
+      },
+      handlerOptions: {
+        irregular: true
+      }
+    })
+    @map.addControl(@aoiHandler)
+    
+    $('#map-buttons .btn[name="aoi"]').click (params) =>
+      @aoiClick()
+  
+    bounds = new OpenLayers.Bounds -2395996.09375, 99121.09375, 2525878.90625, 2703613.28125
+    @map.zoomToExtent bounds
+  
+  aoiAdd: (feature) ->
+    @aoiHandler.deactivate()
+    request = new MapRequest({ wkt: feature.geometry.toString() })
+    request.send()
+    
+  aoiClick: () ->
+    @aoiLayer.removeAllFeatures()
+    @aoiHandler.activate()
