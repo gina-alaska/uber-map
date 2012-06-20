@@ -1,6 +1,7 @@
 %tr
   %td= f.text_field :field, class: 'input-small'
-  %td= f.select :handler, ['between', '=', '>', '<'], {}, class: 'span2'
+  %td
+    = f.select :handler, ['between', '=', '>', '<'], {}, class: 'span2'
   %td= f.text_field :values, class: 'input-small'
   = f.fields_for rule.style do |s|
     %td= s.text_field :strokeWidth, class: 'input-small'

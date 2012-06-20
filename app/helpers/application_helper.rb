@@ -29,9 +29,9 @@ module ApplicationHelper
     output.html_safe
   end
   
-  def load_all_map_layers
+  def load_all_map_layers(map)
     output = ""
-    Layer.all.each do |layer|
+    map.layers.each do |layer|
       output << <<-EOJS
         var layer = new VectorFeed('#{layer_path(layer, format: :json)}', uber.map, '#{layer.projection}', 'EPSG:3338');
         layer.fetch();
