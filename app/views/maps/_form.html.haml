@@ -1,0 +1,36 @@
+#map-form.row
+  .span12
+    - map.errors.full_messages.each do |msg|
+      .alert.alert-error= msg
+
+    = form_for map, html: { class: 'form-horizontal' } do |f|
+      %fieldset
+        .control-group  
+          = f.label :title, class: 'control-label'
+          .controls
+            = f.text_field :title
+        .control-group      
+          = f.label :slug, class: 'control-label'
+          .controls
+            = f.text_field :slug
+      #layers
+        %h2.pull-left Layers
+        .pull-right
+          = select_tag 'layer', options_from_collection_for_select(Layer.all - map.layers, :slug, :name)
+          = link_to 'Add Layer', '#', class: 'btn btn-primary'
+          = link_to 'New Layer', new_layer_path, class: 'btn btn-primary'
+        %table.table.table-bordered.table-striped.table-condensed
+          %thead
+            %tr
+              %th Name
+              %th Type
+              %th
+          %tbody
+            - @map.layers.each do |layer|
+              %tr
+                %td= layer.name
+                %td= layer.data_type
+                %td.span1= link_to 'Remove', '#', class: 'btn btn-danger'
+      .form-actions
+        .pull-right
+          = f.submit class: 'btn btn-primary'

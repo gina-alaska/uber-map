@@ -1,0 +1,2 @@
+module FirepointsHelper
+end

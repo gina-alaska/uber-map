@@ -1,0 +1,19 @@
+!!!5
+%html
+  %head
+    %title Ubermap
+    = stylesheet_link_tag    "admin", :media => "all"
+    = javascript_include_tag "admin"
+    = csrf_meta_tags
+  %body
+    = render 'layouts/header'
+    .subnav.subnav-fixed-top
+      .navbar-inner
+        .container-fluid
+          %ul.nav.nav-pills
+            %li= link_to 'Map Settings', maps_path
+            %li{ class: current_page?(layers_path) ? 'active' : '' }= link_to 'Layers', layers_path
+    
+    #content.container
+      = flash_messages
+      = yield

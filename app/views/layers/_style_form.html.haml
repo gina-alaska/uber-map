@@ -1,0 +1,29 @@
+= f.hidden_field :id
+.row
+  .span6
+    .control-group
+      = f.label :strokeColor, 'Stroke color', class: 'control-label'
+      .controls
+        = f.text_field :strokeColor
+    .control-group
+      = f.label :strokeOpacity, 'Stroke opacity', class: 'control-label'
+      .controls
+        = f.text_field :strokeOpacity
+    .control-group
+      = f.label :strokeWidth, 'Stroke width', class: 'control-label'
+      .controls
+        = f.text_field :strokeWidth
+  .span6
+    .control-group
+      = f.label :fillColor, 'Fill color', class: 'control-label'
+      .controls
+        = f.text_field :fillColor
+    .control-group
+      = f.label :fillOpacity, 'Fill opacity', class: 'control-label'
+      .controls
+        = f.text_field :fillOpacity         
+    .control-group
+      = f.label :pointRadius, 'Point radius', class: 'control-label'
+      .controls
+        = f.text_field :pointRadius
+        

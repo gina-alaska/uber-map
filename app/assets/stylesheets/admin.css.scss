@@ -1,0 +1,117 @@
+// Place all the styles related to the admin controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@import 'bootstrap';
+@import 'compass';
+
+#content {
+  margin-top: 85px;
+}
+
+#layer-form {
+/*  input[type="text"], textarea {
+    min-width: 99%;
+  }*/
+}
+
+.subnav {
+  @extend .navbar;
+  
+  .brand { color: #000; }
+  .navbar-inner {
+    background-color: #eee;
+    background-image: none;
+  }
+  &.subnav-fixed-top {
+    @extend .navbar-fixed-top;
+    top: 40px;
+    border-width: 0 0 1px;
+    @include box-shadow(inset 0 1px 0 white, 0 1px 5px rgba(0, 0, 0, .1));
+  }
+  
+  .nav > li {
+    &:first-child a {
+      border-left: 0;
+    }
+    &.active a {
+      color: #777;
+      background-color: #E5E5E5;
+    }
+    
+    &.active a:hover {
+      color: #777;
+      background-color: #E5E5E5;
+    }
+    
+    a {
+      color: $linkColor;
+      text-shadow: none;
+      font-weight: bold;
+      border-left: 1px solid whiteSmoke;
+      border-right: 1px solid #E5E5E5;
+      @include border-radius(0);
+      padding-top: 11px;
+      padding-bottom: 11px;
+      padding-left: 12px;
+      padding-right: 12px;
+      margin: 0;
+      &:hover {
+        color: $linkColorHover;
+      }
+    }
+  }
+}
+
+// Fileupload.less
+// CSS for file upload and image upload widgets
+// --------------------------------------------
+
+.btn.btn-file {
+  overflow: hidden;
+  position: relative;
+  vertical-align: middle;
+  > input[type="file"] {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+}
+
+.fileupload {
+  margin-bottom: 9px;
+  .uneditable-input {
+    display: inline-block;
+    margin-bottom: 0px;
+    vertical-align: middle;
+  }
+  .thumbnail {
+    overflow: hidden;
+    display: inline-block;
+    margin-bottom: 5px;
+    vertical-align: middle;
+    text-align: center;
+    > img {
+      display: inline-block;
+      vertical-align: middle;
+      max-height: 100%;
+    }
+  }
+  .btn {
+    vertical-align: middle;
+  }
+}
+.fileupload-exists .fileupload-new,
+.fileupload-new .fileupload-exists {
+  display: none;
+}
+.fileupload-inline .fileupload-controls {
+  display: inline;
+}
+
+// Not 100% correct, but helps in typical use case
+.fileupload-new .input-append .btn-file {
+  @include border-radius(0 3px 3px 0)
+}

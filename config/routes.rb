@@ -1,5 +1,10 @@
 Ubermap::Application.routes.draw do
-  resource :map
+  resources :layers
+  resources :maps
+
+  resources :firepoints
+
+  match 'admin' => 'layers#index'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -1,0 +1,13 @@
+#new_layer
+  %h1.pull-left Layers
+  = link_to 'Create Layer', new_layer_path, class: 'btn btn-primary pull-right'
+  
+%table.table.table-striped.table-bordered.table-condensed
+  %thead
+    %tr
+      %th Slug
+      %th Name
+      %th Type
+      %th 
+  %tbody
+    = render @layers

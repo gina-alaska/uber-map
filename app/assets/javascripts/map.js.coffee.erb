@@ -1,14 +1,11 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
-$(document).ready ->
-  uber = new UberMap()
-  uber.init()
-
-class MapRequest
+class @MapRequest
   constructor: (params) ->
     @params = params
-    
+  #end constructor
+  
   send: () ->
     $.ajax('/map/new', {
       data: @params
@@ -16,11 +13,187 @@ class MapRequest
       $('#request-windows').empty()
       $('#request-windows').append(data)
       $('#request-windows .modal').modal({ backdrop: 'static' })
+  #end send
+#end MapRequest
 
-class UberMap
-  init: () ->
-    $('#map-buttons .btn').button()
+class @StyleBuilder
+  ruleBuilders: {
+    "between": (field, values, style) ->
+      new OpenLayers.Rule({
+        filter: new OpenLayers.Filter.Comparison({
+          type: OpenLayers.Filter.Comparison.BETWEEN,
+          property: field,
+          lowerBoundary: values[0],
+          upperBoundary: values[1]
+        }),
+        symbolizer: style
+      })
+      
+    ">": (field, values, style) ->
+      new OpenLayers.Rule({
+        filter: new OpenLayers.Filter.Comparison({
+          type: OpenLayers.Filter.Comparison.GREATER_THAN,
+          property: field,
+          value: values[0]
+        }),
+        symbolizer: style
+      })
+    
+    "<": (field, values, style) ->
+      new OpenLayers.Rule({
+        filter: new OpenLayers.Filter.Comparison({
+          type: OpenLayers.Filter.Comparison.LESS_THAN,
+          property: field,
+          value: values[0]
+        }),
+        symbolizer: style
+      })
+    
+    "=": (field, values, style) ->
+      new OpenLayers.Rule({
+        filter: new OpenLayers.Filter.Comparison({
+          type: OpenLayers.Filter.Comparison.EQUAL_TO,
+          property: field,
+          value: values[0]
+        }),
+        symbolizer: style
+      })
+  }
   
+  buildStyles: (config) ->
+    styles = {}
+    
+    if config
+      if config.default
+        styles.default = new OpenLayers.Style(config.default)
+      else
+        styles.default = new OpenLayers.Style(config);        
+      #end if
+    
+      if config.selected
+        styles.select = new OpenLayers.Style(config.selected)
+      # else
+      #   styles.select = styles.default
+        
+      #end if
+    #end if
+    
+    styles
+  #end buildStyles
+  
+  buildRules: (config) ->
+    if(config && config.length > 0)
+      style_rules = for rule in config
+        if typeof rule.values == Array 
+          values = rule.values
+        else
+          values = [rule.values]
+          
+        @ruleBuilders[rule.handler](rule.field, values, rule.style)
+      
+      style_rules
+    #end if
+  #end buildRules
+    
+  build: (style, rules) ->
+    return null if !style && !rules
+    
+    styleConfig = @buildStyles(style)
+    styleConfig.default.addRules(@buildRules(rules)); 
+             
+    new OpenLayers.StyleMap(styleConfig)
+  #end build
+  
+
+class @VectorFeed
+  constructor: (url, map, source_proj, dest_proj) ->
+    @map = map
+    @url = url
+    @builder = new StyleBuilder()
+    
+    if source_proj != dest_proj
+      @do_transform = true
+      @source = new OpenLayers.Projection(source_proj)
+      @dest = new OpenLayers.Projection(dest_proj)
+    #end if
+  #end constructor
+      
+  transform: (features) ->
+    for f in features
+      f.geometry.transform(@source, @dest)  
+      f 
+    #end for
+  #end transform
+  
+  geojson: (data) ->
+    parser = new OpenLayers.Format.GeoJSON()
+    if data.geojson
+      features = parser.read(data.geojson)    
+    else if data.type && data.type == 'FeatureCollection'
+      features = parser.read(data)    
+    #end
+    
+    if @do_transform == true
+      features = @transform(features)
+    
+    features
+  #end geojson
+  
+  gpx: (data) ->
+    parser = new OpenLayers.Format.GPX()
+    features = parser.read(data)    
+    
+    if @do_transform == true
+      features = @transform(features)
+    
+    features    
+  #end gps
+  
+  parseFeatures: (data) ->
+    if data.geojson
+      type = 'geojson'
+    else if data.gpx
+      type = 'gpx'
+    else
+      # assume geojson as default
+      type = 'geojson'
+    #end if
+    
+    switch type
+      when 'geojson'
+        return @geojson(data)
+      when 'gpx'
+        return @gpx(data.gpx)
+    #end switch
+  #end parseFeatures
+  
+  buildLayer: (data) ->
+    config = {}
+    if data.style || data.rules
+      config['styleMap'] = @builder.build(data.style, data.rules)
+    #end if
+    
+    new OpenLayers.Layer.Vector(data.name || 'Vector', config)
+  #end buildLayer
+  
+  fetch: () ->
+    $.get @url, (data) =>      
+      layer = @buildLayer(data)
+      features = @parseFeatures(data)
+        
+      layer.addFeatures(features)
+      @map.addLayer(layer)
+    #end get
+  #end fetch
+#end VectorFeed
+
+class @UberMap
+  init: () ->
+    @initMap()
+    
+  initMap: () ->
+    Proj4js.defs["EPSG:3338"] = "+proj=aea +lat_1=55 +lat_2=65 +lat_0=50 +lon_0=-154 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs";
+    
     config = Gina.Projections.get 'EPSG:3338'
   
     @map = new OpenLayers.Map {
@@ -31,6 +204,7 @@ class UberMap
       units: config.units,
     
       controls: [
+          new OpenLayers.Control.LayerSwitcher(),
           new OpenLayers.Control.Navigation(),
           new OpenLayers.Control.PanZoom(),
           new OpenLayers.Control.Attribution()
@@ -40,31 +214,19 @@ class UberMap
     
     Gina.Layers.inject @map, 'TILE.EPSG:3338.*'
     
-    @aoiLayer = new OpenLayers.Layer.Vector('aoi')
-    @map.addLayer(@aoiLayer)
-  
-    @aoiHandler = new OpenLayers.Control.DrawFeature(@aoiLayer, OpenLayers.Handler.RegularPolygon, {
-      eventListeners: {
-        featureadded: (event) =>
-          @aoiAdd(event.feature)
-      },
-      handlerOptions: {
-        irregular: true
-      }
-    })
-    @map.addControl(@aoiHandler)
-    
-    $('#map-buttons .btn[name="aoi"]').click (params) =>
-      @aoiClick()
-  
     bounds = new OpenLayers.Bounds -2395996.09375, 99121.09375, 2525878.90625, 2703613.28125
     @map.zoomToExtent bounds
+    
   
   aoiAdd: (feature) ->
-    @aoiHandler.deactivate()
+    @navigateClick()
     request = new MapRequest({ wkt: feature.geometry.toString() })
     request.send()
-    
+
+  navigateClick: () ->
+    @aoiHandler.deactivate()
+    $('#map-buttons .btn[name="navigate"]').button('toggle')
+
   aoiClick: () ->
     @aoiLayer.removeAllFeatures()
     @aoiHandler.activate()

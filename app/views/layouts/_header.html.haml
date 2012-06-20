@@ -1,4 +1,8 @@
 .navbar.navbar-fixed-top
   .navbar-inner
-    .container
+    .container-fluid
       = link_to 'UberMap', '/', :class=>'brand'
+      %form.navbar-form.form-search.pull-right
+        %select{name: "site"}
+          %option{value: ""} Select a hub
+          %option{value: "fire"} Fire Points

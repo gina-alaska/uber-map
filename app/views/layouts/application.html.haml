@@ -1,11 +1,10 @@
 !!!5
 %html
-%head
-  %title Ubermap
-  = stylesheet_link_tag    "application", :media => "all"
-  = javascript_include_tag "application", "proj4js/lib/proj4js.js", "OpenLayers-2.12/OpenLayers.js", "gina-map-layers/gina-openlayers.js", "gina-map-layers/projections/all.js"
-  = csrf_meta_tags
-%body
-  = render 'layouts/header'
-  = render 'layouts/map'
-  = yield
+  %head
+    %title Ubermap
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+  %body
+    = render 'layouts/header'
+    = yield
