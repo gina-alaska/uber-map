@@ -14,6 +14,21 @@
   }
 }
 
+.logo {
+  display: inline-block;
+  padding: 2px;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  -webkit-mask-image: url('/assets/earth.png');
+  -webkit-mask-size: 36px 36px;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-origin: content;
+  background: url('/assets/earth-small.png') no-repeat 2px 2px;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%,
+   from(rgba(55, 255, 55, 0.9)), to(rgba(0, 55, 0, 0.9)));
+}
+
 #map {
   left: 0;
   right: 0;

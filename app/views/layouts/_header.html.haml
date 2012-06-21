@@ -1,7 +1,9 @@
 .navbar.navbar-fixed-top
   .navbar-inner
+    .logo.pull-left
     .container-fluid
-      = link_to 'UberMap', '/', :class=>'brand'
+      = link_to '/', :class=>'brand' do
+        Ubermap
       %form.navbar-form.form-search.pull-right
         %select{name: "site"}
           %option{value: ""} Select a hub
