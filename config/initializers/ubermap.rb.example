@@ -1,0 +1,5 @@
+module Ubermap
+  class Application
+    config.base_url = 'uber-map.dev'
+  end
+end

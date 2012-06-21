@@ -5,6 +5,9 @@
       = link_to '/', :class=>'brand' do
         Ubermap
       %form.navbar-form.form-search.pull-right
-        %select{name: "site"}
-          %option{value: ""} Select a hub
-          %option{value: "fire"} Fire Points
+        = select_tag :site, options_from_collection_for_select(Map.all, :url, :title, active_map.url), prompt: 'Select a hub'
+:javascript
+  $('form.navbar-form select').on('change', function() {
+    var url = $(this).find('option:selected').val();
+    if(url.length > 0) { top.location = url; }
+  })
