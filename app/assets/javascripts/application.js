@@ -17,7 +17,6 @@
 //= require proj4js/lib/proj4js.js
 //= require proj4js/lib/projCode/aea.js
 //= require proj4js/lib/projCode/merc.js
-//= require OpenLayers-2.12/OpenLayers.js
 //= require gina-map-layers/gina-openlayers.js
 //= require gina-map-layers/projections/all.js
 //= require map
