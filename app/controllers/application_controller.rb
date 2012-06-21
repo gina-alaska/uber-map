@@ -9,7 +9,10 @@ class ApplicationController < ActionController::Base
   end
 
   def active_map
-    map = Map.where(slug: subdomain).first
+    @active_map ||= Map.where(slug: subdomain).first
+    @active_map = Map.first if map.nil?
+    
+    @active_map
   end
   
   helper_method :subdomain, :active_map
