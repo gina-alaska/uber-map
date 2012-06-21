@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   def active_map
     @active_map ||= Map.where(slug: subdomain).first
-    @active_map = Map.first if map.nil?
+    @active_map = Map.first if @active_map.nil?
     
     @active_map
   end
