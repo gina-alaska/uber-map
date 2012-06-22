@@ -71,10 +71,10 @@ class @VectorFeed
     
     features = @parseFeatures(data)
     
-    # strats = new StratBuilder()
+    # filters = new FilterBuilder()
     # 
-    # dateFilter = strats.date('start_time', Date.parse('2012/06/21'), Date.parse('2012/06/21 23:59:59'), features);
-    # config.strategies = [strats.build(dateFilter)];
+    # dateFilter = filters.date('start_time', Date.parse('2012/06/21'), Date.parse('2012/06/21 23:59:59'), features);
+    # config.strategies = [filters.buildStrat(dateFilter)];
     # 
     layer = new OpenLayers.Layer.Vector(data.name || 'Vector', config)
     @map.addLayer(layer)

@@ -1,4 +1,4 @@
-class @StratBuilder
+class @FilterBuilder
   constructor: () ->
     
   #end constructor
@@ -9,7 +9,7 @@ class @StratBuilder
       property: field,
       value: value
     });
-  #end date  
+  #end only  
   
   date: (field, start_at, end_at, features) ->    
     if features
@@ -25,7 +25,7 @@ class @StratBuilder
     });
   #end date
   
-  build: (filter) ->
+  buildStrat: (filter) ->
     new OpenLayers.Strategy.Filter({
       filter: filter,
       autoActivate: true
