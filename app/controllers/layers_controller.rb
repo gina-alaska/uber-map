@@ -58,7 +58,7 @@ class LayersController < ApplicationController
           if request.xhr?
             render 'edit', :layout => false 
           else
-            render 'edit' 
+            redirect_to edit_layer_path(@layer)
           end
         }       
       else
