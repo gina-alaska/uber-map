@@ -97,7 +97,7 @@ class LayersController < ApplicationController
     end
     
     rules = params[:layer][:rules].values
-    rules.reject! { |r| logger.info r.inspect; r[:field].empty? || r[:handler].empty? || r[:values].empty? }
+    rules.reject! { |r| logger.info r.inspect; r[:field].empty? || r[:handler].empty? }
     layer['rules'] = rules
     
     layer

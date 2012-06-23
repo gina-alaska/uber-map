@@ -1,11 +1,12 @@
 %tr
   %td= f.text_field :field, class: 'input-small'
   %td
-    = f.select :handler, ['between', '=', '>', '<'], {}, class: 'span2'
+    = f.select :handler, ['between', '=', '>', '<', 'colorramp'], {}, class: 'span2'
   %td= f.text_field :values, class: 'input-small'
   = f.fields_for rule.style do |s|
-    %td= s.text_field :strokeWidth, class: 'input-small'
-    %td= s.text_field :strokeColor, class: 'input-small'
-    %td= s.text_field :strokeOpacity, class: 'input-small'
-    %td= s.text_field :fillColor, class: 'input-small'
-    %td= s.text_field :fillOpacity, class: 'input-small'
+    %td= s.text_field :strokeColor, class: 'span2'
+    %td= s.text_field :strokeWidth, class: 'span1'
+    %td= s.text_field :strokeOpacity, class: 'span1'
+    %td= s.text_field :fillColor, class: 'span2'
+    %td= s.text_field :fillOpacity, class: 'span1'
+    %td= s.text_field :graphicZIndex, class: 'span1'

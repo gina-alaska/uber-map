@@ -22,5 +22,6 @@
 //= require gina-map-layers/projections/all.js
 //= require filters
 //= require styles
+//= require legends
 //= require map
 //= require ubermap

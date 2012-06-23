@@ -3,16 +3,18 @@
     %tr
       %th{colspan:3}
       %th{colspan:3, style: 'text-align: center;'} Stroke
-      %th{colspan:2, style: 'text-align: center;'} Fil
+      %th{colspan:2, style: 'text-align: center;'} Fill
+      %th
     %tr
       %th Field
       %th Handler
       %th Values
+      %th Color
       %th Width
-      %th Color
       %th Opacity
       %th Color
       %th Opacity
+      %th Z-Index
   %tbody
     - rules.each_with_index do |rule, index|
       = f.fields_for :rules, rule, :index => index do |r|

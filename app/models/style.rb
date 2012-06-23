@@ -7,6 +7,7 @@ class Style
   field :strokeOpacity,   type: Float
   field :fillColor,       type: String
   field :fillOpacity,     type: Float
+  field :graphicZIndex,   type: Integer
   
   embedded_in :layer
   

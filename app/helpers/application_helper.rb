@@ -33,8 +33,13 @@ module ApplicationHelper
     output = ""
     map.layers.each do |layer|
       output << <<-EOJS
-        var layer = new VectorFeed('#{layer_path(layer, format: :json)}', uber.map, '#{layer.projection}', 'EPSG:3338');
-        layer.fetch();
+
+      var feed = new VectorFeed(uber.map, '#{layer.projection}', 'EPSG:3338');      
+      var legend = new LegendBuilder();
+      
+      $.get('#{layer_path(layer, format: :json)}', function(data) {
+        feed.createLayer(data)
+      })
       EOJS
     end
     

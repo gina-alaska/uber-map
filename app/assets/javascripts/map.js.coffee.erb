@@ -2,9 +2,8 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 class @VectorFeed
-  constructor: (url, map, source_proj, dest_proj) ->
+  constructor: (map, source_proj, dest_proj) ->
     @map = map
-    @url = url
     @builder = new StyleBuilder()
     
     if source_proj != dest_proj
@@ -63,13 +62,13 @@ class @VectorFeed
     #end switch
   #end parseFeatures
   
-  buildLayer: (data) ->
-    config = {}
-    if data.style || data.rules
-      config.styleMap = @builder.build(data.style, data.rules)
-    #end if
-    
+  createLayer: (data) ->
+    config = { rendererOptions: {zIndexing: true} }
     features = @parseFeatures(data)
+    
+    if data.style || data.rules
+      config.styleMap = @builder.build(data.style, data.rules, features)
+    #end if
     
     # filters = new FilterBuilder()
     # 
@@ -81,11 +80,5 @@ class @VectorFeed
     
     layer.addFeatures(features)
     layer
-  #end buildLayer
-  
-  fetch: () ->
-    $.get @url, (data) =>      
-      @buildLayer(data)
-    #end get
-  #end fetch
+  #end createLayer
 #end VectorFeed
