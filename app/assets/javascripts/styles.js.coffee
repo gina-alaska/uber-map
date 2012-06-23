@@ -1,6 +1,7 @@
 class @StyleBuilder
   
   ruleBuilders: {
+    # clamp values between 0 and 255
     clamp: (v) ->
       return Math.max(0, Math.min(255, parseInt(v)))
     #end clamp
@@ -23,7 +24,7 @@ class @StyleBuilder
         g = @clamp(-1020*(xg*xg) + 255)
         b = @clamp(-1020*(xb*xb) + 255)
         
-        f.attributes['rampcolor'] = "rgba(#{r}, #{g}, #{b}, 0.5)}"
+        f.attributes['rampcolor'] = "rgba(#{r}, #{g}, #{b}, 1)}"
       #end for
       
       new OpenLayers.Rule({
