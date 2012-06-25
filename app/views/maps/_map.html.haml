@@ -1,11 +1,12 @@
 #map
-/ #map-tools
-/   .accordion-group
-/     .accordion-heading
-/       = link_to 'Toolbox', '#map-buttons', :class => 'accordion-toggle', "data-toggle" => "collapse", "data-parent" => "#map-tools"
-/     #map-buttons.accordion-body.in.collapse
-/       .accordion-inner
-/         = link_to 'Google', 'http://google.com', class: 'btn btn-primary'
+#map-legends
+  .accordion-group
+    .accordion-heading
+      = link_to 'Legends', '#map-buttons', :class => 'accordion-toggle', "data-toggle" => "collapse", "data-parent" => "#map-legends"
+    #map-buttons.accordion-body.in.collapse
+      .accordion-inner
+        - active_map.layers.each do |layer|
+          = render 'layers/legend', layer: layer
 :javascript
   $(document).ready(function() {
     uber = new UberMap();

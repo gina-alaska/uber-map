@@ -1,0 +1,6 @@
+%tr
+  %td.rule-icon{style: "background-color: #{rule.style.fillColor}; border: 1px solid #{rule.style.strokeColor}; width: 20px; height: 20px;"}
+    &nbsp;
+  %td 
+    = "#{rule.field.humanize} #{handler_text(rule.handler)} #{rule.values}"
+  

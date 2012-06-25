@@ -18,6 +18,14 @@ class LayersController < ApplicationController
     end
   end
   
+  def legend
+    @layer = Layer.where(slug: params[:id]).first
+    
+    respond_to do |format|
+      format.html { render :layout => false }
+    end
+  end
+  
   def new
     @layer = Layer.new
     

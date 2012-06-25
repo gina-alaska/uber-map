@@ -40,7 +40,7 @@
   img { max-width: none; }
 }
 
-#map-tools {
+#map-legends {
   position: absolute;
   bottom: 0px;
   left: 0px;
@@ -49,11 +49,12 @@
   margin: 0 0;
   padding: 0;
   .accordion-group { background: white; }
+  
+  h3 { text-align: left; }
 }
 
 #map-buttons {
   margin: 0;
-  text-align: center;
 }
 
 #request-windows {

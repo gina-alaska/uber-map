@@ -17,8 +17,12 @@ class @UberMap
     
       controls: [
           new OpenLayers.Control.LayerSwitcher(),
-          new OpenLayers.Control.Navigation(),
-          new OpenLayers.Control.PanZoom(),
+          new OpenLayers.Control.Navigation({
+            dragPanOptions: {
+              enableKinetic: true
+            }
+          }),
+          new OpenLayers.Control.Zoom(),
           new OpenLayers.Control.Attribution()
       ],
       numZoomLevels: 18
@@ -26,7 +30,11 @@ class @UberMap
     
     Gina.Layers.inject @map, 'TILE.EPSG:3338.*'
     
-    bounds = new OpenLayers.Bounds -2395996.09375, 99121.09375, 2525878.90625, 2703613.28125
+    bounds = new OpenLayers.Bounds -1791015.625,290927.2460938,1708984.375,2533114.7460938
+                                  #-2115722.65625,-146572.7539062,2259277.34375,2970614.7460938
+                                  #-2761718.75, 160644.53125, 2789062.5, 2771972.65625
+                                  #-2395996.09375, 99121.09375, 2525878.90625, 2703613.28125
+                                   
     @map.zoomToExtent bounds
   #end initMap
   

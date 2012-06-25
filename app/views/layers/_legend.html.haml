@@ -1,0 +1,10 @@
+.legend
+  %h3= layer.name
+  - if layer.rules
+    %table.rules
+      %tbody
+        - layer.rules.each do |rule|
+          = render 'layers/rule', rule: rule
+  - else
+    = render 'layers/style', style: layer.style
+    

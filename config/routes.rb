@@ -1,5 +1,10 @@
 Ubermap::Application.routes.draw do
-  resources :layers
+  resources :layers do
+    member do 
+      get :legend
+    end
+  end
+  
   resources :maps
 
   resources :firepoints
