@@ -46,11 +46,30 @@ class @StyleBuilder
         }),
         symbolizer: style
       })
+    ">=": (field, values, style) ->
+      new OpenLayers.Rule({
+        filter: new OpenLayers.Filter.Comparison({
+          type: OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO,
+          property: field,
+          value: values[0]
+        }),
+        symbolizer: style
+      })
       
     ">": (field, values, style) ->
       new OpenLayers.Rule({
         filter: new OpenLayers.Filter.Comparison({
           type: OpenLayers.Filter.Comparison.GREATER_THAN,
+          property: field,
+          value: values[0]
+        }),
+        symbolizer: style
+      })
+      
+    "<=": (field, values, style) ->
+      new OpenLayers.Rule({
+        filter: new OpenLayers.Filter.Comparison({
+          type: OpenLayers.Filter.Comparison.LESS_THAN_OR_EQUAL_TO,
           property: field,
           value: values[0]
         }),
