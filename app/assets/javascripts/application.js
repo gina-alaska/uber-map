@@ -20,8 +20,10 @@
 //= require proj4js/lib/projCode/ortho.js
 //= require gina-map-layers/gina-openlayers.js
 //= require gina-map-layers/projections/all.js
+//= require raphael-min.js
 //= require filters
 //= require styles
 //= require legends
 //= require map
 //= require ubermap
+

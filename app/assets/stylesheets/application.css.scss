@@ -41,6 +41,7 @@
 }
 
 #map-legends {
+  color: $navbarText;
   position: absolute;
   bottom: 0px;
   left: 0px;
@@ -48,8 +49,18 @@
   width: 300px;
   margin: 0 0;
   padding: 0;
-  .accordion-group { background: white; }
-  
+  .accordion-heading a {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+  }
+  .accordion-group { 
+    border-color: $navbarBackgroundHighlight;
+    background-color: $navbarBackground; 
+  }
+  .accordion-inner {
+    border-color: $navbarBackgroundHighlight;
+  }
   h3 { text-align: left; }
 }
 

@@ -3,8 +3,9 @@
   - if layer.rules
     %table.rules
       %tbody
-        - layer.rules.each do |rule|
-          = render 'layers/rule', rule: rule
+        = render partial: 'layers/rule', collection: layer.rules
+    :javascript
+      #{yield :rules_javascript}
   - else
     = render 'layers/style', style: layer.style
     
