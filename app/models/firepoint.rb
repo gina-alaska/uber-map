@@ -47,6 +47,7 @@ class Firepoint < ActiveRecord::Base
       :id => self.gid,
       :temp => self.temp,
       :time => self.time_tm,
+      :platform => self.platform,
       :hours_ago => self.hours_ago
     }
   end
