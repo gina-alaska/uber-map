@@ -47,8 +47,7 @@ class Firepoint < ActiveRecord::Base
       :id => self.gid,
       :temp => self.temp,
       :time => self.time_tm,
-      :hours_ago => self.hours_ago,
-      :wkt => self.the_geom.as_text
+      :hours_ago => self.hours_ago
     }
   end
 

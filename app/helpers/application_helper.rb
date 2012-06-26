@@ -38,7 +38,13 @@ module ApplicationHelper
       var legend = new LegendBuilder();
       
       $.get('#{layer_path(layer, format: :json)}', function(data) {
-        feed.createLayer(data)
+        var layer = feed.createLayer(data);
+        var control = new OpenLayers.Control.SelectFeature(layer, {
+          onSelect: uber.onFeatureSelect,
+          onUnselect: uber.onFeatureUnselect 
+        });
+        uber.map.addControl(control);
+        control.activate();
       })
       EOJS
     end

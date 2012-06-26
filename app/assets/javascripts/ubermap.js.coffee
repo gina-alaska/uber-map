@@ -33,6 +33,23 @@ class @UberMap
     @map.zoomToExtent bounds
   #end initMap
   
+  onFeatureSelect: (feature) =>
+    content = for key, value of feature.attributes
+      "<div class=\"item item-#{key}\"><label>#{key.replace(/_/g, ' ')}:</label> #{value}</div>"
+    #end for
+      
+    content = '<div class="feature-popup-content">' + content.join('') + '</div>'
+    console.log(content);
+    
+    popup = new OpenLayers.Popup.FramedCloud("popup-"+feature.id, 
+       feature.geometry.getBounds().getCenterLonLat(),
+       null,
+       content, null, true);
+    @map.addPopup(popup);
+    
+  onFeatureUnselect: () =>
+  #end onFeatureUnselect
+  
   aoiAdd: (feature) ->
     @navigateClick()
     request = new MapRequest({ wkt: feature.geometry.toString() })

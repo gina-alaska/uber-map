@@ -21,11 +21,7 @@ module LayersHelper
     config = circle_legend(el, rule)
     
     content_for :rules_javascript do
-      (
-      <<-EOJS
-      Raphael(["#{el}", 24, 24, #{config.to_json}]);
-      EOJS
-      ).html_safe
+      "Raphael(['#{el}', 24, 24, #{config.to_json}]);".html_safe
     end
   end
   
