@@ -62,7 +62,10 @@
   .accordion-inner {
     border-color: $navbarBackgroundHighlight;
   }
-  h3 { text-align: left; }
+  h3 { 
+    text-align: left; 
+    font-size: 15px;
+  }
 }
 
 #map-buttons {
