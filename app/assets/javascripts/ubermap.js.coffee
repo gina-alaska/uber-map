@@ -28,10 +28,41 @@ class @UberMap
     }
     
     Gina.Layers.inject @map, 'TILE.EPSG:3338.*'
-    
-    bounds = new OpenLayers.Bounds -1791015.625,290927.2460938,1708984.375,2533114.7460938
-    @map.zoomToExtent bounds
+    @handleHistoryState()
   #end initMap
+  
+  loadState: (state) =>
+    if state && state.lat && state.lon && state.zoom
+      center = new OpenLayers.LonLat(state.lon, state.lat)
+      center.transform(new OpenLayers.Projection('EPSG:4326'), @map.getProjectionObject())
+      @map.setCenter(center)
+      @map.zoomTo(state.zoom)
+    else    
+      bounds = new OpenLayers.Bounds -1791015.625,290927.2460938,1708984.375,2533114.7460938
+      @map.zoomToExtent bounds
+    #end if
+  #end loadState
+  
+  handleHistoryState: () =>
+    @loadState(history.state)
+    
+    @map.events.register 'moveend', this, () =>
+      return if @preventHistoryUpdate
+      
+      center = @map.getCenter()
+      center.transform(@map.getProjectionObject(), new OpenLayers.Projection('EPSG:4326'))
+      params = { "lat": center.lat.toFixed(3), "lon": center.lon.toFixed(3), "zoom": @map.getZoom() }
+      url = '/?' + $.param(params)
+      
+      history.pushState(params, null, url)
+      
+    $(window).on 'popstate', (e) =>
+      @preventHistoryUpdate = true
+      @loadState(e.originalEvent.state)
+      @preventHistoryUpdate = false
+  
+    #end register
+  #end handleHistoryState
   
   onFeatureSelect: (feature) =>
     content = for key, value of feature.attributes
