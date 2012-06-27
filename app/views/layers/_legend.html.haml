@@ -1,11 +1,12 @@
-.legend
+.legend{id: "layer-legend-#{layer.slug}"}
+  .spinner{style:"float:right; margin-top: 10px;"}
   %h3= layer.name
-  - if layer.rules
-    %table.rules
-      %tbody
+  %table.rules
+    %tbody
+      - if layer.rules
         = render partial: 'layers/rule', collection: layer.rules
-    :javascript
-      #{yield :rules_javascript}
-  - else
-    = render 'layers/style', style: layer.style
+      - else
+        = render 'layers/style', style: layer.style
+  :javascript
+    #{yield :styles_javascript}
     

@@ -39,8 +39,7 @@ class @UberMap
     #end for
       
     content = '<div class="feature-popup-content">' + content.join('') + '</div>'
-    console.log(content);
-    
+          
     popup = new OpenLayers.Popup.FramedCloud("popup-"+feature.id, 
        feature.geometry.getBounds().getCenterLonLat(),
        null,
