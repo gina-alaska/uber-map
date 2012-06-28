@@ -9,6 +9,7 @@ class Layer
   field :data_type,   type: String
   field :data_value,  type: String
   field :projection,  type: String
+  field :filter,      type: Hash
   
   embeds_one :style
   embeds_many :rules

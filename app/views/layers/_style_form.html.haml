@@ -1,29 +1,41 @@
 = f.hidden_field :id
 .row
-  .span6
+  .span4
+    %h3 Point
     .control-group
-      = f.label :strokeColor, 'Stroke color', class: 'control-label'
+      = f.label :graphicName, 'Shape', class: 'control-label'
       .controls
-        = f.text_field :strokeColor
+        = f.select :graphicName, ['circle', 'square'], {}, class: 'span2'
     .control-group
-      = f.label :strokeOpacity, 'Stroke opacity', class: 'control-label'
+      = f.label :rotation, 'Rotation', class: 'control-label'
       .controls
-        = f.text_field :strokeOpacity
+        = f.text_field :rotation, class: 'span2'        
     .control-group
-      = f.label :strokeWidth, 'Stroke width', class: 'control-label'
+      = f.label :pointRadius, 'Size', class: 'control-label'
       .controls
-        = f.text_field :strokeWidth
-  .span6
+        = f.text_field :pointRadius, class: 'span2'
+    
+  .span4
+    %h3 Stroke
     .control-group
-      = f.label :fillColor, 'Fill color', class: 'control-label'
+      = f.label :strokeColor, 'Color', class: 'control-label'
       .controls
-        = f.text_field :fillColor
+        = f.text_field :strokeColor, class: 'span2'
     .control-group
-      = f.label :fillOpacity, 'Fill opacity', class: 'control-label'
+      = f.label :strokeOpacity, 'Opacity', class: 'control-label'
       .controls
-        = f.text_field :fillOpacity         
+        = f.text_field :strokeOpacity, class: 'span2'
     .control-group
-      = f.label :pointRadius, 'Point radius', class: 'control-label'
+      = f.label :strokeWidth, 'Width', class: 'control-label'
       .controls
-        = f.text_field :pointRadius
-        
+        = f.text_field :strokeWidth, class: 'span2'
+  .span4
+    %h3 Fill
+    .control-group
+      = f.label :fillColor, 'Color', class: 'control-label'
+      .controls
+        = f.text_field :fillColor, class: 'span2'
+    .control-group
+      = f.label :fillOpacity, 'Opacity', class: 'control-label'
+      .controls
+        = f.text_field :fillOpacity, class: 'span2'      

@@ -29,30 +29,52 @@ module ApplicationHelper
     output.html_safe
   end
   
+  def spinner(el, disable = false)
+    if disable
+      config = false
+    else
+      config = {
+        lines: 11,            # The number of lines to draw
+        length: 4,            # The length of each line
+        width: 2,             # The line thickness
+        radius: 6,            # The radius of the inner circle
+        rotate: 0,            # The rotation offset
+        color: '#FFF',        # #rgb or #rrggbb
+        speed: 1.4,           # Rounds per second
+        trail: 68,            # Afterglow percentage
+        shadow: true,         # Whether to render a shadow
+        hwaccel: false,       # Whether to use hardware acceleration
+        className: 'spinner', # The CSS class to assign to the spinner
+        zIndex: 2e9,          # The z-index (defaults to 2000000000)
+        top: 'auto',          # Top position relative to parent in px
+        left: 'auto'          # Left position relative to parent in px
+      }
+    end
+    
+    <<-EOJS
+    $('#{el}').spin(#{config.to_json});
+    EOJS
+  end
+  
+  def filter(layer)
+    return unless layer.filter
+    case layer.filter['type'].to_sym
+    when :dateslider
+      "filters.dateslider('#layer-legend-#{layer.slug}', layer, #{layer.filter.to_json})"
+    when :slider
+      "filters.slider('#layer-legend-#{layer.slug}', layer, #{layer.filter.to_json})"
+    end
+  end
+  
   def load_all_map_layers(map)
     output = ""
     map.layers.each do |layer|
       output << <<-EOJS
 
-      var feed = new VectorFeed(uber.map, '#{layer.projection}', 'EPSG:3338');      
-      var legend = new LegendBuilder();
+      var feed = new VectorFeed(uber.map, '#{layer.projection}', 'EPSG:3338'); 
+      var filters = new FilterBuilder();     
       
-      $('#layer-legend-#{layer.slug} .spinner').spin({
-        lines: 11, // The number of lines to draw
-        length: 4, // The length of each line
-        width: 2, // The line thickness
-        radius: 6, // The radius of the inner circle
-        rotate: 0, // The rotation offset
-        color: '#FFF', // #rgb or #rrggbb
-        speed: 1.4, // Rounds per second
-        trail: 68, // Afterglow percentage
-        shadow: true, // Whether to render a shadow
-        hwaccel: false, // Whether to use hardware acceleration
-        className: 'spinner', // The CSS class to assign to the spinner
-        zIndex: 2e9, // The z-index (defaults to 2000000000)
-        top: 'auto', // Top position relative to parent in px
-        left: 'auto' // Left position relative to parent in px
-      });
+      #{spinner("#layer-legend-#{layer.slug} .spinner")}
       
       $.get('#{layer_path(layer, format: :json)}', function(data) {
         var layer = feed.createLayer(data);
@@ -60,10 +82,11 @@ module ApplicationHelper
           onSelect: uber.onFeatureSelect,
           onUnselect: uber.onFeatureUnselect 
         });
-
         uber.map.addControl(control);
         control.activate();
-        $('#layer-legend-#{layer.slug} .spinner').spin(false);
+        
+        #{spinner("#layer-legend-#{layer.slug} .spinner", true)}
+        #{filter(layer)}
       });
       
       EOJS

@@ -1,3 +1,4 @@
+@import 'jquery.ui.slider';
 @import 'compass';
 @import 'bootstrap';
 @import 'maps';
@@ -65,6 +66,24 @@
   h3 { 
     text-align: left; 
     font-size: 15px;
+  }
+  ul.filters {
+    margin-bottom: 0px; 
+    margin-left: 10px;  
+    
+    label {
+      display: inline-block;
+      color: white;
+    }
+    .slider-text { display: inline-block; }
+    .slider { }
+  }
+  ul.legend { 
+    margin-bottom: 0px; 
+    li {
+      .style-icon { display: inline-block; }
+      .style-text { display: inline-block; vertical-align: top; line-height: 32px; }
+    }
   }
 }
 

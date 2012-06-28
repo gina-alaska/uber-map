@@ -9,6 +9,15 @@
 }
 
 #layer-form {
+  h3 { margin: 0 0 5px 0; text-align: center; text-decoration: underline; }
+  .form-horizontal {
+    .control-label {
+      width: 80px; 
+    }
+    .controls {
+      margin-left: 90px;
+    }
+  }
 /*  input[type="text"], textarea {
     min-width: 99%;
   }*/

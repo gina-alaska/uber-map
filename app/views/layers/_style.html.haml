@@ -1,5 +1,5 @@
-%tr
-  %td.style-icon{id: "style-icon-#{style.id}", style: "width: 24px; height: 24px;"}
-  %td 
+%li
+  .style-icon{id: "style-icon-#{style.id}"}
+  .style-text 
     = style.layer.name
     = stored_style_javascript("style-icon-#{style.id}", style)

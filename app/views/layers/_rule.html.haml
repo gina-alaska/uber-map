@@ -1,5 +1,4 @@
-%tr
-  %td.rule-icon{id: "rule-icon-#{rule.id}", style: "width: 24px; height: 24px;"}
-  %td 
-    = "#{rule.field.humanize} #{handler_text(rule.handler)} #{rule.values}"
-    = stored_rule_javascript("rule-icon-#{rule.id}", rule)
+%li
+  .style-icon{id: "rule-icon-#{rule.id}"}
+  .style-text= "#{rule.field.humanize} #{handler_text(rule.handler)} #{rule.values}"
+  = stored_rule_javascript("rule-icon-#{rule.id}", rule)

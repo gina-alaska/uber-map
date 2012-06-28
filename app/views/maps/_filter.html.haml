@@ -1,0 +1,9 @@
+- if layer.filter
+  %h3
+    = layer.name
+    Filter
+  %ul.nav.filters
+    %li
+      %label= (layer.filter['display_field'].nil? ? layer.filter['field'] : layer.filter['display_field']).humanize + ':'
+      .slider-text
+      .slider

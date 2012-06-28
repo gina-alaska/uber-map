@@ -2,8 +2,8 @@
   .span12
     - layer.errors.full_messages.each do |msg|
       .alert.alert-error= msg
-    = form_for layer, html: { class: 'form-horizontal' } do |f|
-      %fieldset
+    = form_for layer, html: { class: 'form-horizontals' } do |f|
+      %fieldset.form-horizontal
         .control-group
           = f.label :slug, class: 'control-label'
           .controls
@@ -37,15 +37,19 @@
                     %span.fileupload-new Select file
                     %span.fileupload-exists Change
                     = f.file_field :upload, class: 'input-xlarge'
+      %fieldset.form-horizontal
         %ul.nav.nav-tabs
           %li= link_to 'Style', '#style', "data-toggle" => "tab"
           %li= link_to 'Rules', '#rules', "data-toggle" => "tab"
-        .tab-content.span12
+          %li= link_to 'Filters', '#filters', "data-toggle" => "tab"
+        .tab-content
           #style.tab-pane.active
             = f.fields_for(layer.new_record? ? layer.build_style : layer.style) do |builder|
               = render 'style_form', f: builder     
           #rules.tab-pane
             = render 'rule_forms', f: f, rules: layer.rules
+          #filters.tab-pane
+            = render 'filter_form', f: f, layer: layer
       .form-actions
         .pull-right
           = link_to 'Close', admin_path, class: 'btn btn-large'

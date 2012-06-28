@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.ui.slider
 //= require bootstrap
 //= require bootstrap-button
 //= require proj4js/lib/proj4js.js

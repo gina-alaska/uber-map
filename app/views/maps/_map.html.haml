@@ -2,11 +2,13 @@
 #map-legends
   .accordion-group
     .accordion-heading
-      = link_to 'Legends', '#map-buttons', :class => 'accordion-toggle', "data-toggle" => "collapse", "data-parent" => "#map-legends"
+      = link_to 'Map Info', '#map-buttons', :class => 'accordion-toggle', "data-toggle" => "collapse", "data-parent" => "#map-legends"
     #map-buttons.accordion-body.in.collapse
       .accordion-inner
         - active_map.layers.each do |layer|
-          = render 'layers/legend', layer: layer
+          %div{id: "layer-legend-#{layer.slug}"}        
+            = render 'layers/legend', layer: layer
+            = render 'filter', layer: layer
 :javascript
   $(document).ready(function() {
     uber = new UberMap();

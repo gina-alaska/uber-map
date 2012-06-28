@@ -8,6 +8,8 @@ class Style
   field :fillColor,       type: String
   field :fillOpacity,     type: Float
   field :graphicZIndex,   type: Integer
+  field :graphicName,     type: String
+  field :rotation,        type: Integer
   
   embedded_in :layer
   
