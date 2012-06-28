@@ -92,7 +92,7 @@ class LayersController < ApplicationController
   protected
   
   def layer_params
-    layer = params[:layer].slice(:slug, :name, :data_type, :data_value, :projection)
+    layer = params[:layer].slice(:slug, :name, :data_type, :data_value, :projection, :filter)
 
     if params[:layer].include?(:upload)
       upload_io = params[:layer][:upload]    

@@ -58,7 +58,7 @@ module ApplicationHelper
   
   def filter(layer)
     return unless layer.filter
-    case layer.filter['type'].to_sym
+    case layer.filter.type.to_sym
     when :dateslider
       "filters.dateslider('#layer-legend-#{layer.slug}', layer, #{layer.filter.to_json})"
     when :slider
