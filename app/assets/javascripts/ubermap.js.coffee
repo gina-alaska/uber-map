@@ -37,8 +37,6 @@ class @UberMap
       center = new OpenLayers.LonLat(state.lon, state.lat)
       center.transform(new OpenLayers.Projection('EPSG:4326'), @map.getProjectionObject())
       
-      console.log(center)
-      
       @map.setCenter(center)
       @map.zoomTo(state.zoom)
     else    
@@ -46,8 +44,6 @@ class @UberMap
       bounds.transform(new OpenLayers.Projection('EPSG:4326'), @map.getProjectionObject())
       @map.zoomToExtent bounds
     #end if
-    
-    console.log @map.getCenter(), state
   #end loadState
   
   handleHistoryState: () =>
