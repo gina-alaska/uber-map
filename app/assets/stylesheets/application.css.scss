@@ -16,6 +16,10 @@
   }
 }
 
+.olMapViewport .olControlZoom a {
+  background-color: $navbarBackground;
+}
+
 .logo {
   display: inline-block;
   padding: 2px;
