@@ -13,6 +13,10 @@
           = f.label :slug, class: 'control-label'
           .controls
             = f.text_field :slug
+        .control-group      
+          = f.label :projection, class: 'control-label'
+          .controls
+            = f.select :projection, [['Alaskan Albers', 'EPSG:3338'], ['Alaska Polar','EPSG:3572'], ['Web Mercator', 'EPSG:3857']]
       #layers
         %h2.pull-left Layers
         .pull-right

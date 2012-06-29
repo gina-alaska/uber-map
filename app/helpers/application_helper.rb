@@ -71,7 +71,7 @@ module ApplicationHelper
     map.layers.each do |layer|
       output << <<-EOJS
 
-      var feed = new VectorFeed(uber.map, '#{layer.projection}', 'EPSG:3338'); 
+      var feed = new VectorFeed(uber.map, '#{layer.projection}', '#{map.projection}'); 
       var filters = new FilterBuilder();     
       
       #{spinner("#layer-legend-#{layer.slug} .spinner")}

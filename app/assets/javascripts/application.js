@@ -17,6 +17,7 @@
 //= require bootstrap-button
 //= require proj4js/lib/proj4js.js
 //= require proj4js/lib/projCode/aea.js
+//= require proj4js/lib/projCode/laea.js
 //= require proj4js/lib/projCode/merc.js
 //= require proj4js/lib/projCode/ortho.js
 //= require gina-map-layers/gina-openlayers.js

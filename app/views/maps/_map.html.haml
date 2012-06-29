@@ -12,7 +12,7 @@
 :javascript
   $(document).ready(function() {
     uber = new UberMap();
-    uber.init();
+    uber.init('#{active_map.projection}');
     #{ load_all_map_layers(active_map) }
   });
   
