@@ -32,7 +32,7 @@ class MapsController < ApplicationController
       if @map.save
         format.html {
           flash['success'] = "Successfully created map #{@map.title}"
-          redirect_to edit_map_path(@map)
+          redirect_to File.join(@map.url, edit_map_path(@map))
         }
       else
         format.html {
@@ -58,7 +58,7 @@ class MapsController < ApplicationController
       if @map.update_attributes(map_params)
         format.html {
           flash[:success] = "Updated map #{@map.title}"
-          redirect_to edit_map_path(@map)
+          redirect_to File.join(@map.url, edit_map_path(@map))
         }
       else
         flash[:error] = 'Error while updating map'
