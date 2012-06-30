@@ -6,12 +6,26 @@
     = javascript_include_tag "admin"
     = csrf_meta_tags
   %body
-    = render 'layouts/header'
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .logo.pull-left
+        .container-fluid
+          = link_to '/', :class=>'brand' do
+            Ubermap
+          %form.navbar-form.form-search.pull-right
+            = select_tag :site, options_from_collection_for_select(Map.all, :admin_url, :title, active_map.admin_url), prompt: 'Select a hub'
+    :javascript
+      $('form.navbar-form select').on('change', function() {
+        var url = $(this).find('option:selected').val();
+        if(url.length > 0) { top.location = url; }
+      })
     .subnav.subnav-fixed-top
       .navbar-inner
         .container-fluid
           %ul.nav.nav-pills
-            %li= link_to 'Map Settings', maps_path
+            %li= link_to 'New Map', new_map_path
+            %li= link_to 'View Map', active_map.url
+            %li= link_to 'Map Settings', edit_map_path(active_map)
             %li{ class: current_page?(layers_path) ? 'active' : '' }= link_to 'Layers', layers_path
     
     #content.container

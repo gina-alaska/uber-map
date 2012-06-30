@@ -17,24 +17,13 @@
           = f.label :projection, class: 'control-label'
           .controls
             = f.select :projection, [['Alaskan Albers', 'EPSG:3338'], ['Alaska Polar','EPSG:3572'], ['Web Mercator', 'EPSG:3857']]
-      #layers
-        %h2.pull-left Layers
-        .pull-right
-          = select_tag 'layer', options_from_collection_for_select(Layer.all - map.layers, :slug, :name)
-          = link_to 'Add Layer', '#', class: 'btn btn-primary'
-          = link_to 'New Layer', new_layer_path, class: 'btn btn-primary'
-        %table.table.table-bordered.table-striped.table-condensed
-          %thead
-            %tr
-              %th Name
-              %th Type
-              %th
-          %tbody
-            - map.layers.each do |layer|
-              %tr
-                %td= layer.name
-                %td= layer.data_type
-                %td.span1= link_to 'Remove', '#', class: 'btn btn-danger'
+        .control-group      
+          = f.label :active, class: 'control-label'
+          .controls
+            = f.select :active, [true, false]
       .form-actions
         .pull-right
           = f.submit class: 'btn btn-primary'
+    -unless map.new_record?
+      #layers.form-horizontal
+        = render 'layers', map: map

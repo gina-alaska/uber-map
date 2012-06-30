@@ -89,6 +89,66 @@ class LayersController < ApplicationController
     end
   end
   
+  def remove
+    @map = Map.where(slug: params[:map_id]).first
+    @layer = Layer.where(slug: params[:id]).first
+
+    # don't know why but this fixes an issue with deleting from HABTM in mongoid
+    @map.layers.inspect
+    @map.layers.delete(@layer)
+    
+    respond_to do |format|
+      if @map.save
+        format.html {
+          if request.xhr?
+            render :partial => 'maps/layers', locals: { map: @map }
+          else
+            flash[:success] = "Removed #{@layer.name} from #{@map.title}"
+            redirect_to edit_map_path(@map)
+          end
+        }
+      else
+        flash[:error] = 'Error while trying to remove layer from the map'
+        format.html {
+          if request.xhr?
+            render :partial => 'maps/layers', locals: { map: @map }
+          else
+            redirect_to edit_map_path(@map)
+          end          
+        }
+      end
+    end
+    
+  end
+  
+  def add
+    @map = Map.where(slug: params[:map_id]).first
+    @layer = Layer.where(slug: params[:id]).first
+    
+    @map.layers << @layer
+    respond_to do |format|
+      if @map.save
+        format.html {
+          if request.xhr?
+            render :partial => 'maps/layers', locals: { map: @map }
+          else
+            flash['success'] = "Added #{@layer.name} to #{@map.title}"
+            redirect_to edit_map_path(@map)
+          end
+        }
+      else
+        flash['error'] = 'Error while trying to add layer to the map'
+        format.html {
+          if request.xhr?
+            render :partial => 'maps/layers', locals: { map: @map }
+          else
+            redirect_to edit_map_path(@map)
+          end          
+        }
+      end
+    end
+  end
+  
   protected
   
   def layer_params
