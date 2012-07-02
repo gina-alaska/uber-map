@@ -16,6 +16,7 @@
 
 /layers
 database.yml
+mongoid.yml
 
 .DS_Store
 
