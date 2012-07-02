@@ -1,5 +1,0 @@
-{
-  "type": "Feature",
-  "geometry": <%= RGeo::GeoJSON.encode(firepoint.the_geom).to_json.html_safe %>,
-  "properties": <%= firepoint.as_json.to_json.html_safe %>
-}
