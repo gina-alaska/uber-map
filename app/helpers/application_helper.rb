@@ -71,22 +71,27 @@ module ApplicationHelper
     map.layers.each do |layer|
       output << <<-EOJS
 
+      var feed_layers = [];
       var feed = new VectorFeed(uber.map, '#{layer.projection}', '#{map.projection}'); 
       var filters = new FilterBuilder();     
+      
+      var feed_select_control = new OpenLayers.Control.SelectFeature([], {
+        onSelect: uber.onFeatureSelect,
+        onUnselect: uber.onFeatureUnselect 
+      });
+      uber.map.addControl(feed_select_control);
+      feed_select_control.activate();
       
       #{spinner("#layer-legend-#{layer.slug} .spinner")}
       
       $.get('#{layer_path(layer, format: :json)}', function(data) {
         var layer = feed.createLayer(data);
-        var control = new OpenLayers.Control.SelectFeature(layer, {
-          onSelect: uber.onFeatureSelect,
-          onUnselect: uber.onFeatureUnselect 
-        });
-        uber.map.addControl(control);
-        control.activate();
         
         #{spinner("#layer-legend-#{layer.slug} .spinner", true)}
         #{filter(layer)}
+        
+        feed_layers.push(layer);
+        feed_select_control.setLayer(feed_layers);
       });
       
       EOJS
