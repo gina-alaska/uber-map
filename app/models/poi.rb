@@ -11,4 +11,12 @@ class Poi < ActiveRecord::Base
   def longitude
     geom.lon
   end
+  
+  def as_json
+    {
+      name: self.name,
+      category: self.category,
+      url: "<a href=\"#{self.url}\">#{self.url}</a>"
+    }
+  end
 end
