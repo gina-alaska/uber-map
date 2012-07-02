@@ -2,7 +2,7 @@ module LayersHelper
   GRAPHIC_SIZE = 32
   
   def legend_text(rule)
-    if rule.legendLabel
+    if not rule.legendLabel.empty?
       rule.legendLabel
     else
       "#{rule.field.humanize} #{rule.handler.to_s.humanize} #{rule.values}"
