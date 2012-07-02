@@ -1,10 +1,12 @@
 %tr
-  %td= f.text_field :field, class: 'input-small'
+  %td= f.text_field :field, class: 'span2'
   %td
     = f.select :handler, ['between', '=', '>=', '>', '<=', '<', 'colorramp'], {}, class: 'span2'
-  %td= f.text_field :values, class: 'input-small'
+  %td= f.text_field :values, class: 'span2'
+  %td= f.text_field :legendLabel, class: 'span2'
   = f.fields_for rule.style do |s|
-    %td= s.select :graphicName, ['circle', 'square'], {}, class: 'span2'
+    %td= s.select :graphicName, ['', 'circle', 'square', 'image'], {}, class: 'span2'
+    %td= s.text_field :externalGraphic, class: 'span2'
     %td= s.text_field :rotation, class: 'span1'
     %td= s.text_field :pointRadius, class: 'span1'
     %td= s.text_field :strokeColor, class: 'span1'

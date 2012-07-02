@@ -6,7 +6,4 @@
   - if layer.rules.count > 0
     = render partial: 'rule', collection: layer.rules
   - else
-    = render 'style', style: layer.style
-:javascript
-  #{yield :styles_javascript}
-    
+    = render 'style', style: layer.style    

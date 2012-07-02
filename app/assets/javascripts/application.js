@@ -27,7 +27,7 @@
 //= require filters
 //= require styles
 //= require legends
-//= require map
+//= require maps
 //= require ubermap
 //= require_self
 

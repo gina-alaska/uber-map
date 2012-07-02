@@ -1,5 +1,6 @@
 class MapsController < ApplicationController
   layout 'admin'
+  before_filter :check_valid_site, :except => [:new, :create]
   
   def index
   end

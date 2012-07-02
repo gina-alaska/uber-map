@@ -10,6 +10,7 @@
             = render 'legend', layer: layer
             = render 'filter', layer: layer
 :javascript
+  #{yield :styles_javascript}            
   $(document).ready(function() {
     uber = new UberMap();
     uber.init('#{active_map.projection}');

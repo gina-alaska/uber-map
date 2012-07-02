@@ -1,9 +1,10 @@
 class Rule
   include Mongoid::Document
   
-  field :field,   type: String
-  field :handler, type: String
-  field :values,  type: Array
+  field :field,           type: String
+  field :handler,         type: String
+  field :values,          type: Array
+  field :legendLabel,     type: String
   
   embeds_one :style
   embedded_in :layer

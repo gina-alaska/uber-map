@@ -1,13 +1,19 @@
 module LayersHelper
   GRAPHIC_SIZE = 32
   
-  def handler_text(handler)
-    handler.to_s.humanize
+  def legend_text(rule)
+    if rule.legendLabel
+      rule.legendLabel
+    else
+      "#{rule.field.humanize} #{rule.handler.to_s.humanize} #{rule.values}"
+    end
   end
 
   def stored_style_javascript(el, style)
     #TODO add support for other types of legend features
     case style['graphicName']
+    when 'image'
+      config = image_legend(el, style)          
     when 'circle'
       config = circle_legend(el, style)    
     when 'square'
@@ -41,6 +47,20 @@ module LayersHelper
       "stroke-width" => style['strokeWidth'] || 1,
       fill: style['fillColor'] || '#f00',
       "fill-opacity" => style['fillOpacity'] || 1
+    }
+  end  
+  
+  def image_legend(el, style)
+    size = (style['pointRadius'] || 10)*2
+    center = (GRAPHIC_SIZE - size)/2
+    
+    {
+      type: "image",
+      src: style['externalGraphic'],
+      x: center, 
+      y: center,
+      width: size,
+      height: size
     }
   end
   

@@ -42,13 +42,13 @@
           %li= link_to 'Style', '#style', "data-toggle" => "tab"
           %li= link_to 'Rules', '#rules', "data-toggle" => "tab"
           %li= link_to 'Filter', '#filters', "data-toggle" => "tab"
-        .tab-content
+        .tab-content.row
           #style.tab-pane.active
             = f.fields_for(layer.new_record? ? layer.build_style : layer.style) do |builder|
               = render 'style_form', f: builder     
-          #rules.tab-pane
+          #rules.tab-pane.span12
             = render 'rule_forms', f: f, rules: layer.rules
-          #filters.tab-pane.row
+          #filters.tab-pane
             = f.fields_for(layer.filter.nil? ? layer.build_filter : layer.filter) do |builder|
               = render 'filter_form', f: builder, filter: layer.filter
       .form-actions

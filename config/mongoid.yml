@@ -1,6 +1,6 @@
 development:
   host: localhost
-  database: ubermap_development
+  database: ubermap_pico
 
 test:
   host: localhost
