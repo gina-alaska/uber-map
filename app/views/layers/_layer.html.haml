@@ -1,7 +1,7 @@
 %tr
-  %td= layer.slug
   %td= layer.name
-  %td= layer.data_type
-  %td
-    = link_to 'Edit', edit_layer_path(layer), class: 'btn btn-primary'
+  %td.span2= layer.slug
+  %td.span2= layer.data_type
+  %td.span2
+    = link_to 'Edit', edit_layer_path(layer), class: 'btn'
     = link_to 'Delete', layer, :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-danger'
