@@ -20,6 +20,22 @@ class @LayerFeed
       @dest = new OpenLayers.Projection(dest_proj)
     #end if
   #end constructor
+  
+  onFeatureSelect: (feature) =>
+    content = for key, value of feature.attributes
+      "<div class=\"item item-#{key}\"><label>#{key.replace(/_/g, ' ')}:</label> #{value}</div>"
+    #end for
+      
+    content = '<div class="feature-popup-content">' + content.join('') + '</div>'
+          
+    popup = new OpenLayers.Popup.FramedCloud("popup-"+feature.id, 
+       feature.geometry.getBounds().getCenterLonLat(),
+       null,
+       content, null, true);
+    @map.addPopup(popup);
+    
+  onFeatureUnselect: () =>
+  #end onFeatureUnselect  
       
   transform: (features) ->
     return false if !features
@@ -107,9 +123,8 @@ class @LayerFeed
     
     layer.addFeatures(features)
     
-    @vector_layers << layer
+    @vector_layers.push layer
     @feed_select_control.setLayer(@vector_layers)
-    
     layer
   #end vector
 #end VectorFeed

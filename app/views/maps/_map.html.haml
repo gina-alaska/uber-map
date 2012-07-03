@@ -24,7 +24,6 @@
     var name = $(e.target).val();
     var checked = $(e.target).attr('checked');
     var layers = uber.map.getLayersByName(name);
-    console.log(checked);
     layers[0].setVisibility(checked);
   })
   
