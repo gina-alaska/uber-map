@@ -109,9 +109,10 @@ class @StyleBuilder
     
       if config.selected
         styles.select = new OpenLayers.Style(config.selected)
-      # else
-      #   styles.select = styles.default
-        
+      else
+        styles.select = styles.default
+      #end if
+      
       #end if
     #end if
     
