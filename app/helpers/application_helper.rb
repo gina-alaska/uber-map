@@ -84,19 +84,28 @@ module ApplicationHelper
       
       #{spinner("#layer-legend-#{layer.slug} .spinner")}
       
-      $.get('#{layer_path(layer, format: :json)}', function(data) {
-        var layer = feed.createLayer(data);
-        
+      var request = $.get('#{layer_path(layer, format: :json)}', function(data) {
+        try {
+          var layer = feed.createLayer(data);
+          #{filter(layer)}        
+          feed_layers.push(layer);
+          feed_select_control.setLayer(feed_layers);
+        } catch(err) {
+          $('#map-messages').append('<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">x</a><h4 class="alert-heading">Error!</h4>Error while reading features from #{layer.name}</div>')
+        }        
+      })
+      
+      request.complete(function() {
         #{spinner("#layer-legend-#{layer.slug} .spinner", true)}
-        #{filter(layer)}
-        
-        feed_layers.push(layer);
-        feed_select_control.setLayer(feed_layers);
       });
       
       EOJS
     end
     
     output
+  end
+  
+  def error_reading_layer(layer)
+    
   end
 end

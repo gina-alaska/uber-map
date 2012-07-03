@@ -10,6 +10,18 @@
   }
 }
 
+#map-messages {
+  position: absolute;
+  top: 45px;
+  right: 10px;
+  margin: 0 0;
+  padding: 0;
+  
+  .alerts {
+    width: 350px;
+  }
+}
+
 #map-legends {
   color: $navbarText;
   position: absolute;

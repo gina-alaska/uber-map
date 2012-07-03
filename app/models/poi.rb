@@ -18,7 +18,15 @@ class Poi < ActiveRecord::Base
     {
       name: self.name,
       category: self.category,
-      url: "<a href=\"#{self.url}\">#{self.url}</a>"
+      url: "<a href=\"#{self.url}\">#{truncated_url}</a>"
     }
+  end
+  
+  def truncated_url
+    if self.url.length > 180
+      self.url[0..177] + '...'
+    else
+      self.url
+    end
   end
 end
