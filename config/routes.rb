@@ -17,7 +17,6 @@ Ubermap::Application.routes.draw do
   resources :firepoints
 
   match 'admin' => 'maps#admin'
-  match 'feeds/:id(.:format)' => 'feeds#show'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
