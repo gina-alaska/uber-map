@@ -1,9 +1,5 @@
 .spinner{style:"float:right; margin-top: 10px;"}
-%h3
-  = layer.name
-  Legend
 %ul.legend.nav
+  = render 'style', style: layer.style    
   - if layer.rules.count > 0
     = render partial: 'rule', collection: layer.rules
-  - else
-    = render 'style', style: layer.style    

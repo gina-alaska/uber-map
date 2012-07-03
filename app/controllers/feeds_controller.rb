@@ -30,6 +30,9 @@ class FeedsController < ApplicationController
   
   def poi
     @feed = Poi.active
+    if params[:category]
+      @feed = @feed.where(category: params[:category])
+    end
     
     { 
       type: "FeatureCollection", 

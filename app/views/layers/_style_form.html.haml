@@ -5,7 +5,11 @@
     .control-group
       = f.label :graphicName, 'Shape', class: 'control-label'
       .controls
-        = f.select :graphicName, ['circle', 'square'], {}, class: 'span2'
+        = f.select :graphicName, ['', 'circle', 'square', 'image'], {}, class: 'span2'
+    .control-group
+      = f.label :externalGraphic, 'Image', class: 'control-label'
+      .controls
+        = f.text_field :externalGraphic, class: 'span2'
     .control-group
       = f.label :rotation, 'Rotation', class: 'control-label'
       .controls

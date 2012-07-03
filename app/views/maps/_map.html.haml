@@ -5,8 +5,11 @@
       = link_to 'Map Info', '#map-buttons', :class => 'accordion-toggle', "data-toggle" => "collapse", "data-parent" => "#map-legends"
     #map-buttons.accordion-body.in.collapse
       .accordion-inner
+        %h3
+          = active_map.title
+          Legend      
         - active_map.layers.each do |layer|
-          %div{id: "layer-legend-#{layer.slug}"}        
+          %div.form-inline{id: "layer-legend-#{layer.slug}"}        
             = render 'legend', layer: layer
             = render 'filter', layer: layer
 :javascript
@@ -16,4 +19,11 @@
     uber.init('#{active_map.projection}');
     #{ load_all_map_layers(active_map) }
   });
+  $(document).on('click', '.style-checkbox input', function(e) {
+    var name = $(e.target).val();
+    var checked = $(e.target).attr('checked');
+    var layers = uber.map.getLayersByName(name);
+    console.log(checked);
+    layers[0].setVisibility(checked);
+  })
   

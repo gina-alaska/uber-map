@@ -41,14 +41,14 @@ class Layer
       response = Net::HTTP.get(URI.parse(self.data_value))
       case ext.to_sym
       when :geojson
-        data[ext] = JSON.parse(response)
+        data[:geojson] = JSON.parse(response)
       else
-        data[ext] = response
+        data[:geojson] = response
       end
     when :geojson
-      data[self.data_type] = JSON.parse(self.data_value)
+      data[:geojson] = JSON.parse(self.data_value)
     else
-      data[self.data_type] = self.data_value
+      data[:geojson] = self.data_value
     end
     
     data[:rules] = self.rules.as_json

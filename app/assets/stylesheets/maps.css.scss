@@ -9,3 +9,51 @@
     text-transform:capitalize;
   }
 }
+
+#map-legends {
+  color: $navbarText;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  width: 300px;
+  margin: 0 0;
+  padding: 0;
+  .accordion-heading a {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+  }
+  .accordion-group { 
+    border-color: $navbarBackgroundHighlight;
+    background-color: $navbarBackground; 
+  }
+  .accordion-inner {
+    border-color: $navbarBackgroundHighlight;
+  }
+  h3 { 
+    text-align: left; 
+    font-size: 15px;
+  }
+  ul.filters {
+    margin-bottom: 0px; 
+    margin-left: 10px;  
+    
+    label {
+      display: inline-block;
+      color: white;
+    }
+    .slider-text { display: inline-block; }
+    .slider { }
+  }
+  ul.legend { 
+    margin-bottom: 0px; 
+    li {
+      height: 32px;
+      &.rule { margin-left: 17px; }
+      .style { display: inline-block; vertical-align: middle; }
+      .style input { margin: 0; }
+      .style-text { }
+    }
+  }
+}

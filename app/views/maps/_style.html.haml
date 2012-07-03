@@ -1,5 +1,7 @@
-%li
-  .style-icon{id: "style-icon-#{style.id}"}
-  .style-text 
+%li{id:"style-#{style.id}"}
+  .style.style-checkbox
+    = check_box_tag "style-checkbox-#{style.id}", style.layer.name, true
+  .style.style-icon
+  .style.style-text 
     = style.layer.name
-    = stored_style_javascript("style-icon-#{style.id}", style)
+    = stored_style_javascript("style-#{style.id} .style-icon", style)

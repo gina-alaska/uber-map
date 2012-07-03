@@ -32,51 +32,6 @@
   img { max-width: none; }
 }
 
-#map-legends {
-  color: $navbarText;
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  width: 300px;
-  margin: 0 0;
-  padding: 0;
-  .accordion-heading a {
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-  }
-  .accordion-group { 
-    border-color: $navbarBackgroundHighlight;
-    background-color: $navbarBackground; 
-  }
-  .accordion-inner {
-    border-color: $navbarBackgroundHighlight;
-  }
-  h3 { 
-    text-align: left; 
-    font-size: 15px;
-  }
-  ul.filters {
-    margin-bottom: 0px; 
-    margin-left: 10px;  
-    
-    label {
-      display: inline-block;
-      color: white;
-    }
-    .slider-text { display: inline-block; }
-    .slider { }
-  }
-  ul.legend { 
-    margin-bottom: 0px; 
-    li {
-      .style-icon { display: inline-block; }
-      .style-text { display: inline-block; vertical-align: top; line-height: 32px; }
-    }
-  }
-}
-
 #map-buttons {
   margin: 0;
 }

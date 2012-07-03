@@ -13,15 +13,15 @@ module LayersHelper
     #TODO add support for other types of legend features
     case style['graphicName']
     when 'image'
-      config = image_legend(el, style)          
+      config = image_legend(style)          
     when 'circle'
-      config = circle_legend(el, style)    
+      config = circle_legend(style)    
     when 'square'
-      config = square_legend(el, style)    
+      config = square_legend(style)    
     end
     
     content_for :styles_javascript do
-      output = "var el = Raphael(['#{el}', #{GRAPHIC_SIZE}, #{GRAPHIC_SIZE}, #{config.to_json}]);"
+      output = "var el = Raphael([$('##{el}')[0], #{GRAPHIC_SIZE}, #{GRAPHIC_SIZE}, #{config.to_json}]);"
       output << "el.transform('r#{style['rotation']}');" if style['rotation']
       output.html_safe
     end
@@ -34,7 +34,7 @@ module LayersHelper
     stored_style_javascript(el, style)
   end
   
-  def circle_legend(el, style)
+  def circle_legend(style)
     center = GRAPHIC_SIZE/2
     
     {
@@ -50,7 +50,7 @@ module LayersHelper
     }
   end  
   
-  def image_legend(el, style)
+  def image_legend(style)
     size = (style['pointRadius'] || 10)*2
     center = (GRAPHIC_SIZE - size)/2
     
@@ -64,7 +64,7 @@ module LayersHelper
     }
   end
   
-  def square_legend(el, style)
+  def square_legend(style)
     size = (style['pointRadius'] || 10)*2
     center = (GRAPHIC_SIZE - size)/2
     

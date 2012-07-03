@@ -1,4 +1,4 @@
-%li
-  .style-icon{id: "rule-icon-#{rule.id}"}
-  .style-text= legend_text(rule)
-  = stored_rule_javascript("rule-icon-#{rule.id}", rule)
+%li.rule{id: "rule-#{rule.id}"}
+  .style.style-icon
+  .style.style-text= legend_text(rule)
+  = stored_rule_javascript("rule-#{rule.id} .style-icon", rule)

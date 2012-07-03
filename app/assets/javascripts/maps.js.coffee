@@ -64,7 +64,7 @@ class @VectorFeed
   #end parseFeatures
   
   createLayer: (data) ->
-    config = { rendererOptions: {zIndexing: true} }
+    config = { rendererOptions: {zIndexing: true}, displayInLayerSwitcher: false }
     features = @parseFeatures(data)
     
     if data.style || data.rules
