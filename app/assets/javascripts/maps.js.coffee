@@ -1,10 +1,18 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
-class @VectorFeed
+class @LayerFeed
   constructor: (map, source_proj, dest_proj) ->
     @map = map
     @builder = new StyleBuilder()
+    @vector_layers = []
+    
+    @feed_select_control = new OpenLayers.Control.SelectFeature([], {
+      onSelect: @onFeatureSelect,
+      onUnselect: @onFeatureUnselect 
+    })
+    @map.addControl(@feed_select_control)
+    @feed_select_control.activate()
     
     if source_proj != dest_proj
       @do_transform = true
@@ -64,6 +72,24 @@ class @VectorFeed
   #end parseFeatures
   
   createLayer: (data) ->
+    switch data.type
+      when 'tiles'
+        @tiles(data)
+      else
+        @vector(data)
+    #end switch
+  #end createLayer
+  
+  tiles: (data) ->
+    config = { isBaseLayer: false, opacity: 0.5 }
+    
+    layer = new OpenLayers.Layer.XYZ(data.name, data.tiles, config)
+    @map.addLayer(layer)
+    
+    layer
+  #end tiles
+    
+  vector: (data) ->
     config = { rendererOptions: {zIndexing: true}, displayInLayerSwitcher: false }
     features = @parseFeatures(data)
     
@@ -80,6 +106,10 @@ class @VectorFeed
     @map.addLayer(layer)
     
     layer.addFeatures(features)
+    
+    @vector_layers << layer
+    @feed_select_control.setLayer(@vector_layers)
+    
     layer
-  #end createLayer
+  #end vector
 #end VectorFeed

@@ -20,7 +20,7 @@
             = f.select :projection, ['EPSG:4326', 'EPSG:3338', 'ORTHOGRAPHIC']
         
         .control-group
-          = f.select :data_type, ['upload', 'geojson', 'gpx', 'proxy'], {}, class: 'control-label'
+          = f.select :data_type, ['upload', 'geojson', 'gpx', 'tiles', 'proxy'], {}, class: 'control-label'
           #data
             .controls
               - case (params[:data_type].nil? ? layer.data_type.try(:to_sym) : params[:data_type].to_sym)
@@ -29,6 +29,8 @@
               - when :gpx
                 = f.text_area :data_value, class: 'span8'
               - when :proxy
+                = f.text_field :data_value, class: 'input-xlarge'
+              - when :tiles
                 = f.text_field :data_value, class: 'input-xlarge'
               - else
                 .fileupload.fileupload-new{ "data-fileupload"=>"file" }

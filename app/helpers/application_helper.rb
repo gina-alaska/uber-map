@@ -72,24 +72,15 @@ module ApplicationHelper
       output << <<-EOJS
 
       var feed_layers = [];
-      var feed = new VectorFeed(uber.map, '#{layer.projection}', '#{map.projection}'); 
+      var feed = new LayerFeed(uber.map, '#{layer.projection}', '#{map.projection}'); 
       var filters = new FilterBuilder();     
-      
-      var feed_select_control = new OpenLayers.Control.SelectFeature([], {
-        onSelect: uber.onFeatureSelect,
-        onUnselect: uber.onFeatureUnselect 
-      });
-      uber.map.addControl(feed_select_control);
-      feed_select_control.activate();
       
       #{spinner("#layer-legend-#{layer.slug} .spinner")}
       
       var request = $.get('#{layer_path(layer, format: :json)}', function(data) {
         try {
           var layer = feed.createLayer(data);
-          #{filter(layer)}        
-          feed_layers.push(layer);
-          feed_select_control.setLayer(feed_layers);
+          #{filter(layer)}
         } catch(err) {
           $('#map-messages').append('<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">x</a><h4 class="alert-heading">Error!</h4>Error while reading features from #{layer.name}</div>')
         }        
