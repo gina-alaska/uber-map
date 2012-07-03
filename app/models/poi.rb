@@ -4,6 +4,8 @@ class Poi < ActiveRecord::Base
   set_rgeo_factory_for_column(:geom,
       RGeo::Geographic.spherical_factory(:srid => 4326))
 
+  scope :active, where(:active => true)
+
   def latitude
     geom.lat
   end
@@ -12,7 +14,7 @@ class Poi < ActiveRecord::Base
     geom.lon
   end
   
-  def as_json
+  def as_json(*args)
     {
       name: self.name,
       category: self.category,

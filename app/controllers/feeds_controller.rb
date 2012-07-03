@@ -29,7 +29,7 @@ class FeedsController < ApplicationController
   end
   
   def poi
-    @feed = Poi.all
+    @feed = Poi.active
     
     { 
       type: "FeatureCollection", 
