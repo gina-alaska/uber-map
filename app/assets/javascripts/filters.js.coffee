@@ -38,6 +38,18 @@ class @FilterBuilder
     updateFilter([min,min])
   #end dateslider
   
+  opacityslider: (el, layer, config) ->
+    $(el + ' .slider').slider({
+      min: 0,
+      max: 100,
+      value: 50,
+      slide: (e, ui) =>
+        $(el + ' .slider-text').html(ui.value + '%')
+        layer.setOpacity(ui.value / 100)
+      #end slide
+    })    
+    $(el + ' .slider-text').html('Opacity: 50%')
+  
   slider: (el, layer, config) ->
     field = config.field
     display_field= config.display_field
