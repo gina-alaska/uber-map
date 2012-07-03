@@ -29,9 +29,11 @@
               - when :gpx
                 = f.text_area :data_value, class: 'span8'
               - when :proxy
-                = f.text_field :data_value, class: 'input-xlarge'
+                = f.text_field :data_value, class: 'span8'
               - when :tiles
-                = f.text_field :data_value, class: 'input-xlarge'
+                = f.text_field :data_value, class: 'span8', placeholder: "Enter a url..."
+                %span.help-block 
+                  Example: http://tiles.gina.alaska.edu/tilesrv/bdl/${x}/${y}/${z}
               - else
                 .fileupload.fileupload-new{ "data-fileupload"=>"file" }
                   .fileupload-preview.uneditable-input
