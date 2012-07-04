@@ -9,17 +9,5 @@
     = javascript_include_tag "application"
     = csrf_meta_tags
   %body
-    .navbar.navbar-fixed-top
-      .navbar-inner
-        .logo.pull-left
-        .container-fluid
-          = link_to '/', :class=>'brand' do
-            Ubermap
-          %form.navbar-form.form-search.pull-right
-            = select_tag :site, options_from_collection_for_select(Map.active, :url, :title, active_map.url), prompt: 'Select a hub'
-    :javascript
-      $('form.navbar-form select').on('change', function() {
-        var url = $(this).find('option:selected').val();
-        if(url.length > 0) { top.location = url; }
-      })
+    = render 'layouts/header'
     = yield

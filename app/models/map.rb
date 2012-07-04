@@ -19,6 +19,14 @@ class Map
     "http://#{self.slug}.#{Ubermap::Application.config.base_url}/"
   end
   
+  def title_with_status
+    if !active
+      self.title + ' (disabled)'
+    else
+      self.title
+    end
+  end
+  
   def admin_url
     url + 'admin'
   end

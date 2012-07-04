@@ -3,6 +3,25 @@ class ApplicationController < ActionController::Base
   before_filter :check_valid_site
   
   protected
+
+  # Helper method to get the list of maps for the current site
+  def site_maps
+    if current_user && current_user.admin?
+      Map.all
+    else
+      Map.active
+    end
+  end
+
+  def current_user
+    return nil if session[:user_id].nil?
+    
+    @current_user ||= User.find(session[:user_id])
+  end
+  
+  def current_user=(user)
+    @current_user = user
+  end
   
   def check_valid_site
     if active_map.nil?
@@ -21,5 +40,9 @@ class ApplicationController < ActionController::Base
     @active_map
   end
   
-  helper_method :subdomain, :active_map
+  def auth_hash
+    request.env['omniauth.auth']
+  end
+  
+  helper_method :subdomain, :active_map, :current_user, :site_maps
 end

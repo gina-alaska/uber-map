@@ -1,4 +1,6 @@
 Ubermap::Application.routes.draw do
+  resources :sessions
+
   resources :layers do
     member do 
       get :legend
@@ -16,6 +18,9 @@ Ubermap::Application.routes.draw do
 
   resources :firepoints
 
+  match '/login' => 'sessions#new', as: 'login'
+  match '/logout' => 'sessions#destroy', as: 'logout'
+  match '/auth/:provider/callback', to: 'sessions#create'
   match 'admin' => 'maps#admin'
   
   # The priority is based upon order of creation:
