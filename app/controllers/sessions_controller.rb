@@ -1,8 +1,4 @@
 class SessionsController < ApplicationController
-  def new
-    redirect_to '/auth/developer'
-  end
-  
   def create
     @user = User.find_with_omniauth(auth_hash)
     @user = User.create_with_omniauth(auth_hash) if @user.nil?
