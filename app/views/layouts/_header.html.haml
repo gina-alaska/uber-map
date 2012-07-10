@@ -3,7 +3,7 @@
     .logo.pull-left
     .container-fluid
       = link_to '/', :class=>'brand' do
-        Ubermap
+        = active_map.try(:title)
       %ul.nav.pull-right
         %li.dropdown
           = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
