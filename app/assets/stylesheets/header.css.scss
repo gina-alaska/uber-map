@@ -4,11 +4,11 @@
   width: 36px;
   height: 36px;
   margin: 0;
-  -webkit-mask-image: url('/assets/earth.png');
+/*  -webkit-mask-image: url('/assets/earth.png');
   -webkit-mask-size: 36px 36px;
   -webkit-mask-repeat: no-repeat;
-  -webkit-mask-origin: content;
-  background: url('/assets/earth-small.png') no-repeat 2px 2px;
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%,
-   from(rgba(55, 255, 55, 0.9)), to(rgba(0, 55, 0, 0.9)));
+  -webkit-mask-origin: content;*/
+  background: url('/assets/earth-green.png') no-repeat 2px 2px;
+  @include background-size(36px 36px);
+/*  @include background(linear-gradient(top, rgba(55, 255, 55, 0.9), rgba(0, 55, 0, 0.9)));*/
 }
