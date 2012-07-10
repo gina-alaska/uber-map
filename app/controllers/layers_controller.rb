@@ -13,7 +13,7 @@ class LayersController < ApplicationController
     @layer = Layer.where(slug: params[:id]).first
     respond_to do |format|
       format.json do
-        render json: @layer.as_json
+        render json: @layer
       end
     end
   end
@@ -152,7 +152,7 @@ class LayersController < ApplicationController
   protected
   
   def layer_params
-    layer = params[:layer].slice(:slug, :name, :data_type, :data_value, :projection, :filter)
+    layer = params[:layer].slice(:slug, :name, :data_type, :data_value, :projection, :filter, :attribution)
 
     if params[:layer].include?(:upload)
       upload_io = params[:layer][:upload]    

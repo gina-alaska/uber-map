@@ -5,14 +5,19 @@
     = form_for layer, html: { class: 'form-horizontals' } do |f|
       %fieldset.form-horizontal
         .control-group
-          = f.label :slug, class: 'control-label'
-          .controls
-            = f.text_field :slug
-        
-        .control-group
           = f.label :name, class: 'control-label'
           .controls
             = f.text_field :name, class: 'input-xlarge'
+        
+        .control-group
+          = f.label :slug, class: 'control-label'
+          .controls
+            = f.text_field :slug
+
+        .control-group
+          = f.label :attribution, class: 'control-label'
+          .controls
+            = f.text_field :attribution, class: 'input-xlarge'
         
         .control-group
           = f.label :projection, class: 'control-label'

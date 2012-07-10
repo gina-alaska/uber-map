@@ -97,7 +97,7 @@ class @LayerFeed
   #end createLayer
   
   tiles: (data) ->
-    config = { isBaseLayer: false, opacity: 0.5 }
+    config = { attribution: data.attribution, isBaseLayer: false, opacity: 0.5, displayInLayerSwitcher: false }
     
     layer = new OpenLayers.Layer.XYZ(data.name, data.tiles, config)
     @map.addLayer(layer)
@@ -106,7 +106,7 @@ class @LayerFeed
   #end tiles
     
   vector: (data) ->
-    config = { rendererOptions: {zIndexing: true}, displayInLayerSwitcher: false }
+    config = { attribution: data.attribution, rendererOptions: {zIndexing: true}, displayInLayerSwitcher: false }
     features = @parseFeatures(data)
     
     if data.style || data.rules
