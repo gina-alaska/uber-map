@@ -41,8 +41,8 @@ class @UberMap
       @map.setCenter(center)
       @map.zoomTo(state.zoom)
     else    
-      bounds = new OpenLayers.Bounds -178.00173053759866,50.46509481762141,-106.7350762188874,68.8621532986179
-      bounds.transform(new OpenLayers.Projection('EPSG:4326'), @map.getProjectionObject())
+      bounds = new OpenLayers.Bounds -175.1330784368692,55.700549954048114,-126.8228511740872,68.84008605441156
+      bounds.transform('EPSG:4326', @map.getProjectionObject())
       @map.zoomToExtent bounds
     #end if
   #end loadState
