@@ -83,11 +83,16 @@ class @FilterBuilder
           strat.filteredLayer.destroy()
         #end if
         
+        # get the url from the currently shown feature
         url = layer.features[0].attributes[field] + '${x}/${y}/${z}'       
+        
         if url
           config = { isBaseLayer: false, opacity: 1, wrapDateLine: true, displayInLayerSwitcher: false }
           strat.filteredLayer = new OpenLayers.Layer.XYZ('test', url, config)
           uber.map.addLayer(strat.filteredLayer)
+          
+          # keep overlay on top of filtered tiles
+          uber.map.setLayerIndex(layer, uber.map.getLayerIndex(strat.filteredLayer))
         #end if
       , 3000)
     #end updateFilter
