@@ -1,5 +1,5 @@
 #map
-#map-buttons
+#map-tools
   = link_to '#', :id => 'map-identify', :class => 'btn btn-primary', 'data-toggle'=>"button" do
     %i.icon-info-sign.icon-white
     Identify
@@ -7,7 +7,7 @@
 #map-legends
   .accordion-group
     .accordion-heading
-      = link_to 'Map Info', '#map-buttons', :class => 'accordion-toggle', "data-toggle" => "collapse", "data-parent" => "#map-legends"
+      = link_to 'Map Info', '#map-legends', :class => 'accordion-toggle', "data-toggle" => "collapse", "data-parent" => "#map-legends"
     #map-buttons.accordion-body.in.collapse
       .accordion-inner
         %h3
