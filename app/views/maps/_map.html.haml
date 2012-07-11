@@ -6,8 +6,8 @@
 #map-legends
   .accordion-group
     .accordion-heading
-      = link_to 'Map Info', '#map-legends', :class => 'accordion-toggle', "data-toggle" => "collapse", "data-parent" => "#map-legends"
-    #map-buttons.accordion-body.in.collapse
+      = link_to 'Map Info', '#map-legend-items', :class => 'accordion-toggle', "data-toggle" => "collapse", "data-parent" => "#map-legends"
+    #map-legend-items.accordion-body.in.collapse
       .accordion-inner
         %h3
           = active_map.title
