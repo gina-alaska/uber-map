@@ -1,28 +1,28 @@
 class @StyleBuilder
   
   ruleBuilders: {
-    # clamp values between 0 and 255
+    # clamp values between 0 and 1.0
     clamp: (v) ->
-      return Math.max(0, Math.min(255, parseInt(v)))
+      return Math.max(0, Math.min(1, parseFloat(v)))
     #end clamp
     
-    "colorramp": (field, values, style, features) ->
+    "ColorRamp-3": (field, values, style, features) ->
       min = max = null
       
       for f in features
-        min = f.attributes[field] if min > f.attributes[field] || min == null
-        max = f.attributes[field] if max < f.attributes[field] || max == null
+        min = parseFloat(f.attributes[field]) if min > parseFloat(f.attributes[field]) || min == null
+        max = parseFloat(f.attributes[field]) if max < parseFloat(f.attributes[field]) || max == null
       #end for
       
       t = max - min
       
       for f in features
-        x = (f.attributes[field] - 1)/t
+        x = (parseFloat(f.attributes[field] - min))/t
         xg = x - 1
         xb = x - 0.5
-        r = @clamp(-1020*(x*x) + 255)
-        g = @clamp(-1020*(xg*xg) + 255)
-        b = @clamp(-1020*(xb*xb) + 255)
+        r = parseInt(-255*@clamp(x*x) + 255)
+        g = parseInt(-255*@clamp(xg*xg) + 255)
+        b = parseInt(-255*@clamp(xb*xb) + 255)
         
         f.attributes['rampcolor'] = "rgba(#{r}, #{g}, #{b}, 1)}"
       #end for
@@ -35,7 +35,42 @@ class @StyleBuilder
         }),
         symbolizer: style
       })
-    #end colorramp
+    #end 3colorramp
+      
+    "ColorRamp-3Low": (field, values, style, features) ->
+      min = max = null
+      total = 0
+      
+      for f in features
+        min = parseFloat(f.attributes[field]) if min > parseFloat(f.attributes[field]) || min == null
+        max = parseFloat(f.attributes[field]) if max < parseFloat(f.attributes[field]) || max == null
+        total = total + parseFloat(f.attributes[field])
+      #end for
+
+      t = max - min      
+      avg = total / features.length / t * 100
+      for f in features
+        x = (parseFloat(f.attributes[field])-min)/t
+        xg = x
+        xb = x - 0.5
+        r = parseInt(255*@clamp(avg*x))
+        g = parseInt(255*@clamp(xg))
+        b = parseInt(255*(@clamp(avg*xb*xb)))
+        
+        f.attributes['rampcolor'] = "rgba(#{r}, #{g}, #{b}, 1)}"
+      #end for
+      
+      
+      new OpenLayers.Rule({
+        filter: new OpenLayers.Filter.Function({
+          evaluate: (attributes) ->
+            return true
+          #end evaluate
+        }),
+        symbolizer: style
+      })
+    #end 2colorramp
+    
     "between": (field, values, style) ->
       new OpenLayers.Rule({
         filter: new OpenLayers.Filter.Comparison({

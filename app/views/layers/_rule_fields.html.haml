@@ -1,7 +1,7 @@
 %tr
   %td= f.text_field :field, class: 'span2'
   %td
-    = f.select :handler, ['between', '=', '>=', '>', '<=', '<', 'colorramp'], {}, class: 'span2'
+    = f.select :handler, ['between', '=', '>=', '>', '<=', '<', 'ColorRamp-3', 'ColorRamp-3Low'], {}, class: 'span2'
   %td= f.text_field :values, class: 'span2'
   %td= f.text_field :legendLabel, class: 'span2'
   = f.fields_for rule.style do |s|
