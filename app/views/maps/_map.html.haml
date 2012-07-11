@@ -1,4 +1,6 @@
 #map
+#map-buttons
+  = link_to 'Identify', '#', :id => 'map-identify', :class => 'btn btn-primary', 'data-toggle'=>"button"
 #map-messages.row
 #map-legends
   .accordion-group
@@ -17,7 +19,7 @@
   #{yield :styles_javascript}            
   $(document).ready(function() {
     uber = new UberMap();
-    uber.init('#{active_map.projection}');
+    uber.init('#{active_map.projection}');    
     #{ load_all_map_layers(active_map) }
   });
   $(document).on('click', '.style-checkbox input', function(e) {
@@ -25,5 +27,5 @@
     var checked = $(e.target).attr('checked');
     var layers = uber.map.getLayersByName(name);
     layers[0].setVisibility(checked);
-  })
+  });  
   

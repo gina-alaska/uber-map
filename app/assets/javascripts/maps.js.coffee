@@ -7,12 +7,23 @@ class @LayerFeed
     @builder = new StyleBuilder()
     @vector_layers = []
     
-    @feed_select_control = new OpenLayers.Control.SelectFeature([], {
+    uber.feed_select_control = new OpenLayers.Control.SelectFeature([], {
       onSelect: @onFeatureSelect,
-      onUnselect: @onFeatureUnselect 
+      onUnselect: @onFeatureUnselect,
+      autoActivate: false
     })
-    @map.addControl(@feed_select_control)
-    @feed_select_control.activate()
+    
+    $(document).on('click', '#map-identify', (e) ->
+      if $(e.target).hasClass('active')
+        uber.feed_select_control.activate()
+      else
+        uber.feed_select_control.deactivate()
+      #end if
+    );
+    
+    
+    @map.addControl(uber.feed_select_control)
+    # uber.feed_select_control.activate()
     
     if source_proj != dest_proj
       @do_transform = true
@@ -124,7 +135,7 @@ class @LayerFeed
     layer.addFeatures(features)
     
     @vector_layers.push layer
-    @feed_select_control.setLayer(@vector_layers)
+    uber.feed_select_control.setLayer(@vector_layers)
     layer
   #end vector
 #end VectorFeed
