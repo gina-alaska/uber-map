@@ -1,8 +1,7 @@
 #map
 #map-tools
-  = link_to '#', :id => 'map-identify', :class => 'btn btn-primary', 'data-toggle'=>"button" do
+  = link_to '#', :id => 'map-identify', :class => 'btn btn-small btn-primary', 'data-toggle'=>"button", :rel => 'tooltip', :title => 'Identify' do
     %i.icon-info-sign.icon-white
-    Identify
 #map-messages.row
 #map-legends
   .accordion-group
@@ -29,5 +28,6 @@
     var checked = $(e.target).attr('checked');
     var layers = uber.map.getLayersByName(name);
     layers[0].setVisibility(checked);
-  });  
+  }); 
+  $('#map-tools a').tooltip({ placement: 'bottom' }); 
   

@@ -65,6 +65,8 @@ module ApplicationHelper
       "filters.dateslider('#layer-legend-#{layer.slug}', layer, #{layer.filter.to_json})"
     when :slider
       "filters.slider('#layer-legend-#{layer.slug}', layer, #{layer.filter.to_json})"
+    when :layerslider
+      "filters.layerslider('#layer-legend-#{layer.slug}', layer, #{layer.filter.to_json})"
     end
   end
   

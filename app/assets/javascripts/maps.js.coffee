@@ -14,7 +14,7 @@ class @LayerFeed
     })
     
     $(document).on('click', '#map-identify', (e) ->
-      if $(e.target).hasClass('active')
+      if $(e.currentTarget).hasClass('active')
         uber.feed_select_control.activate()
       else
         uber.feed_select_control.deactivate()
@@ -34,7 +34,9 @@ class @LayerFeed
   
   onFeatureSelect: (feature) =>
     content = for key, value of feature.attributes
-      "<div class=\"item item-#{key}\"><label>#{key.replace(/_/g, ' ')}:</label> #{value}</div>"
+      unless value == null
+        "<div class=\"item item-#{key}\"><label>#{key.replace(/_/g, ' ')}:</label> #{value}</div>"
+      #end unless
     #end for
       
     content = '<div class="feature-popup-content">' + content.join('') + '</div>'
@@ -43,7 +45,8 @@ class @LayerFeed
        feature.geometry.getBounds().getCenterLonLat(),
        null,
        content, null, true);
-    @map.addPopup(popup);
+    @map.addPopup(popup)
+    uber.feed_select_control.unselectAll()
     
   onFeatureUnselect: () =>
   #end onFeatureUnselect  
@@ -117,7 +120,7 @@ class @LayerFeed
   #end tiles
     
   vector: (data) ->
-    config = { attribution: data.attribution, rendererOptions: {zIndexing: true}, displayInLayerSwitcher: false }
+    config = { attribution: data.attribution, wrapDateLine: true, rendererOptions: {zIndexing: true}, displayInLayerSwitcher: false }
     features = @parseFeatures(data)
     
     if data.style || data.rules

@@ -50,6 +50,60 @@ class @FilterBuilder
     })    
     $(el + ' .slider-text').html('Opacity: 50%')
   
+  layerslider: (el, layer, config) ->
+    field = config.field
+    display_field= config.display_field
+    
+    min = 0
+    max = layer.features.length - 1
+    labels = {}
+    for feature, i in layer.features
+      feature.attributes['index'] = i
+      labels[i] = feature.attributes[display_field] if display_field
+    #end for
+    
+    filter = @only('index', min)
+    strat = @buildStrat(filter, layer)
+    
+    updateFilter = (value) =>
+      filter.value = value
+      strat.setFilter(filter)
+      if labels[value]
+        $(el + ' .slider-text').html(labels[value])
+      else
+        $(el + ' .slider-text').html(value)        
+      #end if
+      
+      if strat.timer
+        clearTimeout(strat.timer)
+      #end if
+      strat.timer = setTimeout(() =>
+        if strat.filteredLayer
+          strat.filteredLayer.removeMap()
+          strat.filteredLayer.destroy()
+        #end if
+        
+        url = layer.features[0].attributes[field] + '${x}/${y}/${z}'       
+        if url
+          config = { isBaseLayer: false, opacity: 1, wrapDateLine: true, displayInLayerSwitcher: false }
+          strat.filteredLayer = new OpenLayers.Layer.XYZ('test', url, config)
+          uber.map.addLayer(strat.filteredLayer)
+        #end if
+      , 3000)
+    #end updateFilter
+    
+    
+    $(el + ' .slider').slider({
+      min: min,
+      max: max,
+      value: min,
+      slide: (e, ui) =>
+        updateFilter(ui.value)
+      #end slide
+    })
+    updateFilter(min)
+  #end slider
+  
   slider: (el, layer, config) ->
     field = config.field
     display_field= config.display_field
@@ -85,7 +139,7 @@ class @FilterBuilder
       #end slide
     })
     updateFilter(min)
-  #end only
+  #end slider
   
   only: (field, value) ->    
     new OpenLayers.Filter.Comparison({
