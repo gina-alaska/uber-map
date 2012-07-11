@@ -87,8 +87,8 @@ class @FilterBuilder
         url = layer.features[0].attributes[field] + '${x}/${y}/${z}'       
         
         if url
-          config = { isBaseLayer: false, opacity: 1, wrapDateLine: true, displayInLayerSwitcher: false }
-          strat.filteredLayer = new OpenLayers.Layer.XYZ('test', url, config)
+          config = { isBaseLayer: false, opacity: 1, wrapDateLine: true }
+          strat.filteredLayer = new OpenLayers.Layer.XYZ(labels[value], url, config)
           uber.map.addLayer(strat.filteredLayer)
           
           # keep overlay on top of filtered tiles
