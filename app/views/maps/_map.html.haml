@@ -1,6 +1,8 @@
 #map
 #map-buttons
-  = link_to 'Identify', '#', :id => 'map-identify', :class => 'btn btn-primary', 'data-toggle'=>"button"
+  = link_to '#', :id => 'map-identify', :class => 'btn btn-primary', 'data-toggle'=>"button" do
+    %i.icon-info-sign.icon-white
+    Identify
 #map-messages.row
 #map-legends
   .accordion-group
