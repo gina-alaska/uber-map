@@ -24,7 +24,7 @@ class @StyleBuilder
         g = parseInt(-255*@clamp(xg*xg) + 255)
         b = parseInt(-255*@clamp(xb*xb) + 255)
         
-        f.attributes['rampcolor'] = "rgba(#{r}, #{g}, #{b}, 1)}"
+        f.attributes['rampcolor'] = "rgb(#{r}, #{g}, #{b})"
       #end for
       
       new OpenLayers.Rule({
@@ -57,7 +57,7 @@ class @StyleBuilder
         g = parseInt(255*@clamp(xg))
         b = parseInt(255*(@clamp(avg*xb*xb)))
         
-        f.attributes['rampcolor'] = "rgba(#{r}, #{g}, #{b}, 1)}"
+        f.attributes['rampcolor'] = "rgb(#{r}, #{g}, #{b})"
       #end for
       
       
