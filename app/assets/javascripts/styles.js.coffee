@@ -48,14 +48,14 @@ class @StyleBuilder
       #end for
 
       t = max - min      
-      avg = total / features.length / t * 100
+      #avg = total / features.length / t * 100
       for f in features
         x = (parseFloat(f.attributes[field])-min)/t
         xg = x
         xb = x - 0.5
-        r = parseInt(255*@clamp(avg*x))
+        r = parseInt(255*@clamp(15*x))
         g = parseInt(255*@clamp(xg))
-        b = parseInt(255*(@clamp(avg*xb*xb)))
+        b = parseInt(255*(@clamp(4*xb*xb)))
         
         f.attributes['rampcolor'] = "rgb(#{r}, #{g}, #{b})"
       #end for
