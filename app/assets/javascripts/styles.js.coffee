@@ -76,8 +76,8 @@ class @StyleBuilder
         filter: new OpenLayers.Filter.Comparison({
           type: OpenLayers.Filter.Comparison.BETWEEN,
           property: field,
-          lowerBoundary: values[0],
-          upperBoundary: values[1]
+          lowerBoundary: parseFloat(values[0]),
+          upperBoundary: parseFloat(values[1])
         }),
         symbolizer: style
       })
@@ -86,7 +86,7 @@ class @StyleBuilder
         filter: new OpenLayers.Filter.Comparison({
           type: OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO,
           property: field,
-          value: values[0]
+          value: parseFloat(values[0])
         }),
         symbolizer: style
       })
@@ -96,7 +96,7 @@ class @StyleBuilder
         filter: new OpenLayers.Filter.Comparison({
           type: OpenLayers.Filter.Comparison.GREATER_THAN,
           property: field,
-          value: values[0]
+          value: parseFloat(values[0])
         }),
         symbolizer: style
       })
@@ -106,7 +106,7 @@ class @StyleBuilder
         filter: new OpenLayers.Filter.Comparison({
           type: OpenLayers.Filter.Comparison.LESS_THAN_OR_EQUAL_TO,
           property: field,
-          value: values[0]
+          value: parseFloat(values[0])
         }),
         symbolizer: style
       })
@@ -116,7 +116,7 @@ class @StyleBuilder
         filter: new OpenLayers.Filter.Comparison({
           type: OpenLayers.Filter.Comparison.LESS_THAN,
           property: field,
-          value: values[0]
+          value: parseFloat(values[0])
         }),
         symbolizer: style
       })
@@ -126,7 +126,7 @@ class @StyleBuilder
         filter: new OpenLayers.Filter.Comparison({
           type: OpenLayers.Filter.Comparison.EQUAL_TO,
           property: field,
-          value: values[0]
+          value: parseFloat(values[0])
         }),
         symbolizer: style
       })
