@@ -86,7 +86,7 @@ module ApplicationHelper
           var layer = feed.createLayer(data);
           #{filter(layer)}
         } catch(err) {
-          $('#map-messages').append('<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">x</a><h4 class="alert-heading">Error!</h4>Error while reading features from #{layer.name}</div>')
+          uber.message("Error while reading features from #{layer.name}")
         }        
       })
       

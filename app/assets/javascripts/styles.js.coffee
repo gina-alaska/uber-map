@@ -172,8 +172,9 @@ class @StyleBuilder
     return null if !style && !rules
     
     styleConfig = @buildStyles(style)
-    styleConfig.default.addRules(@buildRules(rules, features)); 
-             
+    rulesConfig = @buildRules(rules, features)
+    styleConfig.default.addRules(rulesConfig) if rulesConfig
+    
     new OpenLayers.StyleMap(styleConfig)
   #end build
 #end StyleBuilder

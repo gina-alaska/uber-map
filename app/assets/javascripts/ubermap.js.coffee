@@ -76,4 +76,13 @@ class @UberMap
   aoiClick: () ->
     @aoiLayer.removeAllFeatures()
     @aoiHandler.activate()
+  #end aoiClick
+  
+  message: (message) ->
+    $('#map-messages').append('<div class="alert alert-error">' + 
+      '<a class="close" data-dismiss="alert" href="#">x</a><h4 class="alert-heading">Error!</h4>' +
+      message +
+      '</div>'
+    )
+  #end message
 #end UberMap

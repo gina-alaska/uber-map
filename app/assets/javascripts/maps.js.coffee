@@ -69,6 +69,7 @@ class @LayerFeed
     
     if @do_transform == true
       features = @transform(features)
+    #end if
     
     features
   #end geojson
