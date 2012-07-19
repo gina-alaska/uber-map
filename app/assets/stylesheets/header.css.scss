@@ -4,11 +4,18 @@
   width: 36px;
   height: 36px;
   margin: 0;
-/*  -webkit-mask-image: url('/assets/earth.png');
-  -webkit-mask-size: 36px 36px;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-origin: content;*/
-  background: url('/assets/earth-green.png') no-repeat 2px 2px;
-  @include background-size(36px 36px);
-/*  @include background(linear-gradient(top, rgba(55, 255, 55, 0.9), rgba(0, 55, 0, 0.9)));*/
+}
+
+.navbar .nav li.avatar > a {
+  padding: 3px 0px 0px;
+  width: 50px;
+  .caret {
+    margin-top: 13px;
+  }
+}
+
+.avatar {
+  img {
+    border: 1px solid #000;
+  }
 }

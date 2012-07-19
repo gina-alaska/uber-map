@@ -1,4 +1,10 @@
 module ApplicationHelper
+  def avatar_url(user, size=48)
+    default_url = "mm"
+    gravatar_id = Digest::MD5.hexdigest(user.email.downcase) unless user.nil?
+    "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{size}&d=#{CGI.escape(default_url)}"
+  end  
+  
   def flash_messages
     output = ''
     [:success, :error].each do |type|

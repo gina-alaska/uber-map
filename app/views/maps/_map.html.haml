@@ -1,7 +1,18 @@
 #map
 #map-tools
-  = link_to '#', :id => 'map-identify', :class => 'btn btn-small btn-primary', 'data-toggle'=>"button", :rel => 'tooltip', :title => 'Identify' do
+  = link_to '#', :id => 'map-identify', :class => 'btn btn-small btn-primary', 'data-toggle'=>"button" do
     %i.icon-info-sign.icon-white
+  :javascript
+    $('#map-identify').popover({
+      placement: 'right',
+      title: 'Identify Tool',
+      content: 'Activate this tool to show additional information when clicking on points in the map',
+      trigger: 'hover'
+    });
+    $('#map-identify').popover('show');
+    setTimeout(function() {
+      $('#map-identify').popover('hide');
+    }, 15000)
 #map-messages.row
 #map-legends
   .accordion-group

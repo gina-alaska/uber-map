@@ -23,6 +23,7 @@ class User
   end  
   
   def admin?
-    true
+    #TODO Fix this!
+    self.email == 'will@alaska.edu'
   end
 end

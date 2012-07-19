@@ -28,8 +28,8 @@
 
 #map-tools {
   position: absolute;
-  top: 47px;
-  left: 60px;
+  top: 110px;
+  left: 5px;
   padding: 0;
 }
 
@@ -91,4 +91,8 @@
       .style-text { }
     }
   }
+}
+
+.popover.right {
+  z-index: 10000;  
 }
