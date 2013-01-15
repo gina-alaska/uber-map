@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.6'
+gem 'rails', '3.2.11'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -10,7 +10,7 @@ gem "bson_ext"
 gem 'pg'
 gem 'sqlite3'
 gem 'haml'
-gem 'bootstrap-sass', '~> 2.0.2'
+gem 'bootstrap-sass', '~> 2.2.2.0'
 gem 'rgeo'
 gem 'rgeo-geojson'
 gem 'activerecord-postgis-adapter'
