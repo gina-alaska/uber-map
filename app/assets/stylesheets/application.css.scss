@@ -1,13 +1,15 @@
 @import 'jquery.ui.slider';
 @import 'compass';
+
 @import 'bootstrap';
+
 @import 'maps';
 @import 'header';
 
 .olControlLayerSwitcher {
   div.layersDiv {
     @include border-left-radius(10px);
-    background-color: $navbarBackground;
+    background-color: $navbarInverseBackground;
   }
   
   label { 
@@ -18,7 +20,7 @@
 }
 
 .olMapViewport .olControlZoom a {
-  background-color: $navbarBackground;
+  background-color: $navbarInverseBackground;
 }
 
 #map {

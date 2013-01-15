@@ -1,23 +1,26 @@
-.navbar.navbar-fixed-top
+.navbar.navbar-static-top.navbar-inverse
   .navbar-inner
     .logo.pull-left
       = image_tag asset_path('earth-green.png')
-    .container-fluid
-      = link_to '/', :class=>'brand' do
-        = active_map.try(:title)
-      %ul.nav.pull-right
-        %li.dropdown.avatar
-          = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
-            =  image_tag avatar_url(current_user, 30)
-            %b.caret
-          %ul.dropdown-menu
-            %li= link_to 'Login', login_path if current_user.nil?
-            %li= link_to 'Logout', logout_path unless current_user.nil?
-            %li= link_to 'Admin', admin_path if current_user.try(:admin?)
-      %form.navbar-form.form-search.pull-right
-        = select_tag :site, options_from_collection_for_select(site_maps, :url, :title_with_status, active_map.url), prompt: 'Select a hub'
-:javascript
-  $('form.navbar-form select').on('change', function() {
-    var url = $(this).find('option:selected').val();
-    if(url.length > 0) { top.location = url; }
-  })
+    = link_to '/', :class=>'brand' do
+      = active_map.try(:title)
+    %ul.nav.pull-right
+      %li.dropdown
+        = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
+          = "Viewing: #{active_map.title}"
+          %b.caret
+        %ul.dropdown-menu
+          - site_maps.each do |sm|
+            - next unless sm.active? or current_user.admin?
+            %li
+              = link_to sm.url do
+                = sm.title
+                = "(Disabled)" unless sm.active?
+      %li.dropdown.avatar
+        = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
+          =  image_tag avatar_url(current_user, 30)
+          %b.caret
+        %ul.dropdown-menu
+          %li= link_to 'Login', login_path if current_user.nil?
+          %li= link_to 'Logout', logout_path unless current_user.nil?
+          %li= link_to 'Admin', admin_path if current_user.try(:admin?)

@@ -60,8 +60,8 @@
     color: white;
   }
   .accordion-group { 
-    border-color: $navbarBackgroundHighlight;
-    background-color: $navbarBackground; 
+    border-color: $navbarInverseBackgroundHighlight;
+    background-color: $navbarInverseBackground; 
   }
   .accordion-inner {
     border-color: $navbarBackgroundHighlight;
