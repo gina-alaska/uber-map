@@ -21,3 +21,4 @@ mongoid.yml
 .DS_Store
 
 config/initializers/ubermap.rb
+config/mongoid.yml
