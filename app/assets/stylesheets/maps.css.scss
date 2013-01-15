@@ -57,14 +57,14 @@
   .accordion-heading a {
     font-size: 18px;
     font-weight: bold;
-    color: white;
+    color: $navbarInverseLinkColor;
   }
   .accordion-group { 
     border-color: $navbarInverseBackgroundHighlight;
     background-color: $navbarInverseBackground; 
   }
   .accordion-inner {
-    border-color: $navbarBackgroundHighlight;
+    border-color: $navbarInverseBackgroundHighlight;
   }
   h3 { 
     text-align: left; 
