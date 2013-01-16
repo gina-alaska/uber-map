@@ -7,6 +7,10 @@ Ubermap::Application.routes.draw do
     end
   end
   
+  namespace :admin do
+    resources :maps
+  end
+  
   resources :maps do
     resources :layers do
       member do 
@@ -21,7 +25,7 @@ Ubermap::Application.routes.draw do
   match '/login' => redirect('/auth/gina'), as: 'login'
   match '/logout' => 'sessions#destroy', as: 'logout'
   match '/auth/:provider/callback', to: 'sessions#create'
-  match 'admin' => 'maps#admin'
+  match 'admin' => 'admin/maps#index'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

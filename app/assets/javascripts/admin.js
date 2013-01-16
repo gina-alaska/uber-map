@@ -12,6 +12,14 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.slugify
 //= require bootstrap
 //= require bootstrap-button
 //= require bootstrap-fileupload
+//= require_self
+
+$(document).ready(function() {
+  $('input[data-slugify]').each(function() {
+    $(this).slugify($(this).data('slugify'));
+  });
+});

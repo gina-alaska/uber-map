@@ -1,0 +1,34 @@
+.row-fluid
+  .span3
+    = form_for [:admin, map], html: { class: 'well well-small' } do |f|
+      - unless map.errors.empty?
+        .alert.alert-error
+          %h5 Error while trying to save map
+          %ul
+            - map.errors.full_messages.each do |msg|
+              %li= msg
+
+      %fieldset
+        .control-group  
+          = f.label :title, class: 'control-label'
+          .controls
+            = f.text_field :title, class: 'span12'
+        .control-group      
+          = f.label :slug, class: 'control-label'
+          .controls
+            = f.text_field :slug, class: 'span12', data: { slugify: '#map_title' }
+        .control-group      
+          = f.label :projection, class: 'control-label'
+          .controls
+            = f.select :projection, [['Alaskan Albers', 'EPSG:3338'], ['Alaska Polar','EPSG:3572'], ['Web Mercator', 'EPSG:3857']], {}, class: 'span12'
+        .control-group      
+          = f.label :active, class: 'control-label'
+          .controls
+            = f.select :active, [true, false], {}, class: 'span12'
+      .form-actions
+        .pull-right
+          = f.submit class: 'btn btn-primary'
+  .span9
+    - unless map.new_record?
+      = render 'layers', map: map
+

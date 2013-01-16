@@ -14,7 +14,7 @@
             - site_maps.each do |sm|
               - next unless sm.active? or current_user.admin?
               %li
-                = link_to sm.url do
+                = link_to "http://#{sm.url}" do
                   = sm.title
                   = "(Disabled)" unless sm.active?
         %li.dropdown.avatar

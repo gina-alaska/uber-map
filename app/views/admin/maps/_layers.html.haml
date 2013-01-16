@@ -1,0 +1,33 @@
+.navbar
+  .navbar-inner
+    .brand Layers
+    .pull-right.navbar-form
+      = select_tag 'add-layer-selection', add_layer_options(map, Layer.all - map.layers), include_blank: true
+      = link_to 'Add Layer', '#', class: 'btn btn-primary', id: 'add-layer-btn'
+      = link_to 'New Layer', new_layer_path, class: 'btn btn-success'
+
+%table.table.table-bordered.table-striped.table-condensed
+  %thead
+    %tr
+      %th Name
+      %th Type
+      %th Projection
+      %th Actions
+  %tbody
+    - map.layers.each do |layer|
+      %tr
+        %td= layer.name
+        %td= layer.data_type
+        %td.span2= layer.projection
+        %td.span2
+          = link_to edit_layer_path(layer), class: 'btn' do
+            %i.icon-edit
+          = link_to remove_map_layer_path(map, layer), method: :delete, confirm: "Are you sure?", class: 'btn btn-danger' do
+            %i.icon-trash.icon-white
+:javascript
+  $('#add-layer-btn').on('click', function(e) {
+    var val = $('#add-layer-selection option:selected').val();
+    $.post(val, function(data) {
+      $('#layers').html(data)
+    })
+  });

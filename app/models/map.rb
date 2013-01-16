@@ -9,6 +9,9 @@ class Map
   
   has_and_belongs_to_many :layers
   
+  validates_uniqueness_of :slug
+  validates_uniqueness_of :title
+  
   scope :active, where(:active => true)
   
   def to_param
@@ -16,7 +19,7 @@ class Map
   end
   
   def url
-    "http://#{self.slug}.#{Ubermap::Application.config.base_url}/"
+    "#{self.slug}.#{Ubermap::Application.config.base_url}"
   end
   
   def title_with_status
