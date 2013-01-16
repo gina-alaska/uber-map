@@ -1,6 +1,22 @@
 @import 'jquery.ui.slider';
 @import 'compass';
 
+$primaryColor: #111;
+
+$navbarInverseBackground: $primaryColor;
+$navbarInverseBackgroundHighlight: lighten($primaryColor, 10%);
+$navbarInverseContrastColor: contrast-color($primaryColor, #1F1F1F, #DFDFDF);
+$navbarInverseLinkColor: $navbarInverseContrastColor;
+$navbarInverseLinkColorHover: darken($navbarInverseContrastColor, 10%);
+$navbarInverseLinkBackgroundHover: darken($primaryColor, 10%);
+$navbarInverseSearchBackground: #FFF;
+
+$navbarLinkColor: #fff;
+$navbarLinkColorHover: darken($navbarLinkColor, 10%);
+$navbarBackground: #EFEFEF;
+$navbarBackgroundHighlight: lighten($navbarBackground, 10%);
+$navbarLinkBackgroundHover: darken($navbarBackground, 10%);
+
 @import 'bootstrap';
 
 @import 'maps';
