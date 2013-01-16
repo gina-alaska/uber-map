@@ -1,42 +1,81 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
-class @LayerFeed
-  constructor: (map, source_proj, dest_proj) ->
-    @map = map
-    @builder = new StyleBuilder()
-    @vector_layers = []
+
+class @Map
+  init: (projection) =>
+    $(document).ready(() =>
+      @uber = new UberMap
+      @uber.init(projection)  
+      
+      @initControls()
+      @initLayers()
+      
+      $('#map-identify').popover(
+        placement: 'right'
+        title: 'Identify Tool'
+        content: 'Activate this tool to show additional information when clicking on points in the map'
+        trigger: 'hover'
+      )
+      
+      $('#map-identify').popover('show')
+      setTimeout(() ->
+        $('#map-identify').popover('hide')
+      , 15000)
+      
     
-    uber.feed_select_control = new OpenLayers.Control.SelectFeature([], {
+      $(document).on('click', '.style input[type="checkbox"]', (e) =>
+        name = $(e.target).data('name')
+        checked = $(e.target).attr('checked')
+        @toggleLayer(name, checked)
+      )
+    
+      $('#map-tools a').tooltip({ placement: 'bottom' })
+    )
+  #end init
+  
+  initControls: -> 
+    @feed_select_control = new OpenLayers.Control.SelectFeature([], {
       onSelect: @onFeatureSelect,
-      onUnselect: @onFeatureUnselect,
       autoActivate: false
     })
+    @uber.map.addControl(@feed_select_control)
     
-    $(document).on('click', '#map-identify', (e) ->
+    $(document).on('click', '#map-identify', (e) =>
       if $(e.currentTarget).hasClass('active')
-        uber.feed_select_control.activate()
+        @feed_select_control.activate()
       else
-        uber.feed_select_control.deactivate()
+        @feed_select_control.deactivate()
       #end if
     );
+  #end initControls
+  
+  initLayers: =>
+    layers = []
+    for checkbox in $('.style input[type="checkbox"]')
+      do (checkbox) =>
+        feed = new LayerFeed(@uber.map.projection, $(checkbox).data('projection'))
+        filters = new FilterBuilder
+      
+        @spinner("#style-#{$(checkbox).data('slug')} .spinner")
+      
+        request = $.get($(checkbox).data('url'), (data) =>
+          try
+            layer = feed.createLayer(data)
+            @uber.map.addLayer layer
+            layers.push layer
+          catch err
+            @uber.message "Error while reading features from #{$(checkbox).data('name')}"        
+        )
+      
+        request.complete =>
+          @spinner("#style-#{$(checkbox).data('slug')} .spinner", true)
     
-    
-    @map.addControl(uber.feed_select_control)
-    # uber.feed_select_control.activate()
-    
-    if source_proj != dest_proj
-      @do_transform = true
-      @source = new OpenLayers.Projection(source_proj)
-      @dest = new OpenLayers.Projection(dest_proj)
-    #end if
-  #end constructor
+    @feed_select_control.setLayer(layers)
   
   onFeatureSelect: (feature) =>
-    content = for key, value of feature.attributes
-      unless value == null
-        "<div class=\"item item-#{key}\"><label>#{key.replace(/_/g, ' ')}:</label> #{value}</div>"
-      #end unless
+    content = for key, value of feature.attributes when value isnt null
+      "<div class=\"item item-#{key}\"><label>#{key.replace(/_/g, ' ')}:</label> #{value}</div>"
     #end for
       
     content = '<div class="feature-popup-content">' + content.join('') + '</div>'
@@ -45,101 +84,35 @@ class @LayerFeed
        feature.geometry.getBounds().getCenterLonLat(),
        null,
        content, null, true);
-    @map.addPopup(popup)
-    uber.feed_select_control.unselectAll()
-    
-  onFeatureUnselect: () =>
-  #end onFeatureUnselect  
-      
-  transform: (features) ->
-    return false if !features
-    for f in features
-      f.geometry.transform(@source, @dest)  
-      f 
-    #end for
-  #end transform
+    @uber.map.addPopup(popup)
+    @feed_select_control.unselectAll()  
   
-  geojson: (data) ->
-    parser = new OpenLayers.Format.GeoJSON()
-    if data.geojson
-      features = parser.read(data.geojson)    
-    else if data.type && data.type == 'FeatureCollection'
-      features = parser.read(data)    
-    #end
-    
-    if @do_transform == true
-      features = @transform(features)
-    #end if
-    
-    features
-  #end geojson
-  
-  gpx: (data) ->
-    parser = new OpenLayers.Format.GPX()
-    features = parser.read(data)    
-    
-    if @do_transform == true
-      features = @transform(features)
-    
-    features    
-  #end gps
-  
-  parseFeatures: (data) ->
-    if data.geojson
-      type = 'geojson'
-    else if data.gpx
-      type = 'gpx'
+  spinner: (el, disable = false) ->
+    if disable
+      config = false
     else
-      # assume geojson as default
-      type = 'geojson'
-    #end if
-    
-    switch type
-      when 'geojson'
-        return @geojson(data)
-      when 'gpx'
-        return @gpx(data.gpx)
-    #end switch
-  #end parseFeatures
+      config = {
+        lines: 11,            # The number of lines to draw
+        length: 4,            # The length of each line
+        width: 2,             # The line thickness
+        radius: 6,            # The radius of the inner circle
+        rotate: 0,            # The rotation offset
+        color: '#FFF',        # #rgb or #rrggbb
+        speed: 1.4,           # Rounds per second
+        trail: 68,            # Afterglow percentage
+        shadow: true,         # Whether to render a shadow
+        hwaccel: false,       # Whether to use hardware acceleration
+        className: 'spinner', # The CSS class to assign to the spinner
+        zIndex: 2e9,          # The z-index (defaults to 2000000000)
+        top: 'auto',          # Top position relative to parent in px
+        left: 'auto'          # Left position relative to parent in px
+      }
+    $(el).spin(config)
+  #end spinner
   
-  createLayer: (data) ->
-    switch data.type
-      when 'tiles'
-        @tiles(data)
-      else
-        @vector(data)
-    #end switch
-  #end createLayer
+  toggleLayer: (name, visible) ->
+    layers = @uber.map.getLayersByName(name)
+    layers[0].setVisibility(visible) if layers[0]
+  #end toggleLayer
   
-  tiles: (data) ->
-    config = { attribution: data.attribution, isBaseLayer: false, opacity: 0.5, displayInLayerSwitcher: false }
-    
-    layer = new OpenLayers.Layer.XYZ(data.name, data.tiles, config)
-    @map.addLayer(layer)
-    
-    layer
-  #end tiles
-    
-  vector: (data) ->
-    config = { attribution: data.attribution, wrapDateLine: true, rendererOptions: {zIndexing: true}, displayInLayerSwitcher: false }
-    features = @parseFeatures(data)
-    
-    if data.style || data.rules
-      config.styleMap = @builder.build(data.style, data.rules, features)
-    #end if
-    
-    # filters = new FilterBuilder()
-    # 
-    # dateFilter = filters.date('start_time', Date.parse('2012/06/21'), Date.parse('2012/06/21 23:59:59'), features);
-    # config.strategies = [filters.buildStrat(dateFilter)];
-    # 
-    layer = new OpenLayers.Layer.Vector(data.name || 'Vector', config)
-    @map.addLayer(layer)
-    
-    layer.addFeatures(features)
-    
-    @vector_layers.push layer
-    uber.feed_select_control.setLayer(@vector_layers)
-    layer
-  #end vector
-#end VectorFeed
+#end class @Map

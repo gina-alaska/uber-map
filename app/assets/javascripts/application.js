@@ -24,6 +24,7 @@
 //= require gina-map-layers/projections/all.js
 //= require raphael-min.js
 //= require spin.min.js
+//= require layers
 //= require filters
 //= require styles
 //= require legends
