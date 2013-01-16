@@ -1,27 +1,30 @@
-.logo {
-  display: inline-block;
-  padding: 2px;
-  width: 36px;
-  height: 36px;
-  margin: 0;
-}
+#header {
+  .logo {
+    display: inline-block;
+    padding: 2px;
+    width: 36px;
+    height: 36px;
+    margin: 0;
+  }
 
-.navbar .nav li.avatar > a {
-  padding: 3px 0px 0px;
-  width: 50px;
-  .caret {
-    margin-top: 13px;
+  .navbar .nav li.avatar > a {
+    padding: 3px 0px 0px;
+    width: 50px;
+    .caret {
+      margin-top: 13px;
+    }
+  }
+
+  .navbar .brand {
+    font-weight: bold;
+    font-size: 32px;
+    margin-left: 0px;
+  }
+
+  .avatar {
+    img {
+      border: 1px solid #000;
+    }
   }
 }
 
-.navbar .brand {
-  font-weight: bold;
-  font-size: 32px;
-  margin-left: 0px;
-}
-
-.avatar {
-  img {
-    border: 1px solid #000;
-  }
-}

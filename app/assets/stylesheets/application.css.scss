@@ -39,12 +39,9 @@ $navbarLinkBackgroundHover: darken($navbarBackground, 10%);
   background-color: $navbarInverseBackground;
 }
 
-html, body {
-  height: 100%;
-}
-
-#content {
-  height: 100%;
+html, body, #content {
+  top:0;
+  bottom: 0;
 }
 
 #map {

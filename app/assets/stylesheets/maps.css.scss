@@ -49,14 +49,17 @@
 #map-container {
   border-color: $navbarInverseBackgroundHighlight;
   background-color: $navbarInverseBackground; 
-  height: 100%;
+  top: 40px;
+  bottom: 0;
+  position: absolute;
 }
 
 #legends {
+  overflow: auto;
+  height: 100%;
   color: $navbarInverseText;
   background-color: $navbarInverseBackground;
-  margin: 0 0;
-  padding: 0 10px;
+  padding-right: 20px;
 
   ul.filters {
     margin-bottom: 0px; 
