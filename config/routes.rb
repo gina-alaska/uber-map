@@ -8,18 +8,18 @@ Ubermap::Application.routes.draw do
   end
   
   namespace :admin do
-    resources :maps
-  end
-  
-  resources :maps do
-    resources :layers do
-      member do 
-        post :add
-        delete :remove
+    resources :maps do
+      resources :layers do
+        member do 
+          post :add
+          delete :remove
+        end
       end
     end
+    
+    resources :layers
   end
-
+  
   resources :firepoints
 
   match '/login' => redirect('/auth/gina'), as: 'login'

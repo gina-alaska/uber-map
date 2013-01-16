@@ -6,7 +6,20 @@ class Admin::MapsController < AdminController
   end
   
   def edit
-    
+  end
+  
+  def update
+    respond_to do |format|
+      if @map.update_attributes(map_params)
+        format.html {
+          flash[:success] = "Updated map #{@map.title}"
+          redirect_to File.join(@map.url, edit_map_path(@map))
+        }
+      else
+        flash[:error] = 'Error while updating map'
+        render 'edit'
+      end
+    end
   end
   
   def new
@@ -14,7 +27,7 @@ class Admin::MapsController < AdminController
   end
   
   def create
-    @map = Map.new(params[:map].slice(:title, :slug, :projection, :active))
+    @map = Map.new(map_params)
     
     respond_to do |format|
       if @map.save
@@ -48,6 +61,10 @@ class Admin::MapsController < AdminController
   end
   
   protected
+  
+  def map_params
+    params[:map].slice(:title, :slug, :projection, :active)
+  end
   
   def find_map
     @map = Map.where(slug: params[:id]).first

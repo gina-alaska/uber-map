@@ -4,7 +4,7 @@
     .pull-right.navbar-form
       = select_tag 'add-layer-selection', add_layer_options(map, Layer.all - map.layers), include_blank: true
       = link_to 'Add Layer', '#', class: 'btn btn-primary', id: 'add-layer-btn'
-      = link_to 'New Layer', new_layer_path, class: 'btn btn-success'
+      = link_to 'New Layer', new_admin_layer_path, class: 'btn btn-success'
 
 %table.table.table-bordered.table-striped.table-condensed
   %thead
@@ -12,6 +12,7 @@
       %th Name
       %th Type
       %th Projection
+      %th Default selected
       %th Actions
   %tbody
     - map.layers.each do |layer|
@@ -19,10 +20,11 @@
         %td= layer.name
         %td= layer.data_type
         %td.span2= layer.projection
+        %td.span2= layer.select_by_default ? 'Yes' : 'No'
         %td.span2
-          = link_to edit_layer_path(layer), class: 'btn' do
+          = link_to edit_admin_layer_path(layer), class: 'btn' do
             %i.icon-edit
-          = link_to remove_map_layer_path(map, layer), method: :delete, confirm: "Are you sure?", class: 'btn btn-danger' do
+          = link_to remove_admin_map_layer_path(map, layer), method: :delete, confirm: "Are you sure?", class: 'btn btn-danger' do
             %i.icon-trash.icon-white
 :javascript
   $('#add-layer-btn').on('click', function(e) {

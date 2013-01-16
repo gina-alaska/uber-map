@@ -1,0 +1,81 @@
+#layer-form
+  - layer.errors.full_messages.each do |msg|
+    .alert.alert-error= msg
+  = form_for [:admin, layer], html: { class: 'form-horizontals' } do |f|
+    %fieldset.form-horizontal
+      .control-group
+        = f.label :name, class: 'control-label'
+        .controls
+          = f.text_field :name, class: 'input-xlarge'
+        
+      .control-group
+        = f.label :slug, class: 'control-label'
+        .controls
+          = f.text_field :slug, class: 'input-xlarge', data: { slugify: '#layer_name' }
+
+      .control-group
+        = f.label :attribution, class: 'control-label'
+        .controls
+          = f.text_field :attribution, class: 'input-xlarge'
+     
+      .control-group
+        = f.label :projection, class: 'control-label'
+        .controls
+          = f.select :projection, ['EPSG:4326', 'EPSG:3338', 'ORTHOGRAPHIC']
+        
+      .control-group
+        = f.select :data_type, ['upload', 'geojson', 'gpx', 'tiles', 'proxy'], {}, class: 'control-label'
+        #data
+          .controls
+            - case (params[:data_type].nil? ? layer.data_type.try(:to_sym) : params[:data_type].to_sym)
+            - when :geojson
+              = f.text_area :data_value, class: 'span8'
+            - when :gpx
+              = f.text_area :data_value, class: 'span8'
+            - when :proxy
+              = f.text_field :data_value, class: 'span8'
+            - when :tiles
+              = f.text_field :data_value, class: 'span8', placeholder: "Enter a url..."
+              %span.help-block 
+                Example: http://tiles.gina.alaska.edu/tilesrv/bdl/${x}/${y}/${z}
+            - else
+              .fileupload.fileupload-new{ "data-fileupload"=>"file" }
+                .fileupload-preview.uneditable-input
+                %span.btn.btn-file
+                  %span.fileupload-new Select file
+                  %span.fileupload-exists Change
+                  = f.file_field :upload, class: 'input-xlarge'
+                  
+      .control-group
+        .controls
+          = f.label :select_by_default do
+            = f.check_box :select_by_default
+            Show in map by default
+        
+      
+    %fieldset.form-horizontal
+      %ul.nav.nav-tabs
+        %li.active= link_to 'Style', '#style', "data-toggle" => "tab"
+        %li= link_to 'Rules', '#rules', "data-toggle" => "tab"
+        %li= link_to 'Filter', '#filters', "data-toggle" => "tab"
+      .tab-content
+        #style.tab-pane.active
+          = f.fields_for(layer.new_record? ? layer.build_style : layer.style) do |builder|
+            = render 'style_form', f: builder     
+        #rules.tab-pane
+          = render 'rule_forms', f: f, rules: layer.rules
+        #filters.tab-pane
+          = f.fields_for(layer.filter.nil? ? layer.build_filter : layer.filter) do |builder|
+            = render 'filter_form', f: builder, filter: layer.filter
+    .form-actions
+      .pull-right
+        = link_to 'Close', admin_maps_path, class: 'btn'
+        = f.submit class: 'btn btn-primary'
+:javascript
+  $('#layer_data_type').on('change', function(e) {
+    var action = $('#layer-form form').prop('action')
+    $('#data').load(top.location + ' #data', 
+      'data_type=' + $(e.target).find('option:selected').val()
+    );
+  })
+  #{ add_js_errors_for(layer) }

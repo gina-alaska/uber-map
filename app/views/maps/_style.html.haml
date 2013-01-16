@@ -2,7 +2,7 @@
   %label.checkbox.style
     .row-fluid
       .span2
-        = check_box_tag "style-checkbox-#{style.id}", 'on', true, data: { name: style.layer.name, url: layer_url(style.layer, format: 'json'), projection: style.layer.projection, slug: style.layer.slug }
+        = check_box_tag "style-checkbox-#{style.id}", 'on', style.layer.select_by_default, data: { name: style.layer.name, url: layer_url(style.layer, format: 'json'), projection: style.layer.projection, slug: style.layer.slug }
         .icon
       .span9.text 
         = style.layer.name

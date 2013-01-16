@@ -1,45 +1,45 @@
 = f.hidden_field :id
-.row
+.row-fluid
   .span4
     %h3 Point
     .control-group
       = f.label :graphicName, 'Shape', class: 'control-label'
       .controls
-        = f.select :graphicName, ['', 'circle', 'square', 'image'], {}, class: 'span2'
+        = f.select :graphicName, ['', 'circle', 'square', 'image'], {}, class: 'span12'
     .control-group
       = f.label :externalGraphic, 'Image', class: 'control-label'
       .controls
-        = f.text_field :externalGraphic, class: 'span2'
+        = f.text_field :externalGraphic, class: 'span12'
     .control-group
       = f.label :rotation, 'Rotation', class: 'control-label'
       .controls
-        = f.text_field :rotation, class: 'span2'        
+        = f.text_field :rotation, class: 'span12'        
     .control-group
       = f.label :pointRadius, 'Size', class: 'control-label'
       .controls
-        = f.text_field :pointRadius, class: 'span2'
+        = f.text_field :pointRadius, class: 'span12'
     
   .span4
     %h3 Stroke
     .control-group
       = f.label :strokeColor, 'Color', class: 'control-label'
       .controls
-        = f.text_field :strokeColor, class: 'span2'
+        = f.text_field :strokeColor, class: 'span12'
     .control-group
       = f.label :strokeOpacity, 'Opacity', class: 'control-label'
       .controls
-        = f.text_field :strokeOpacity, class: 'span2'
+        = f.text_field :strokeOpacity, class: 'span12'
     .control-group
       = f.label :strokeWidth, 'Width', class: 'control-label'
       .controls
-        = f.text_field :strokeWidth, class: 'span2'
+        = f.text_field :strokeWidth, class: 'span12'
   .span4
     %h3 Fill
     .control-group
       = f.label :fillColor, 'Color', class: 'control-label'
       .controls
-        = f.text_field :fillColor, class: 'span2'
+        = f.text_field :fillColor, class: 'span12'
     .control-group
       = f.label :fillOpacity, 'Opacity', class: 'control-label'
       .controls
-        = f.text_field :fillOpacity, class: 'span2'      
+        = f.text_field :fillOpacity, class: 'span12'      

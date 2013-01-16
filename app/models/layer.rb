@@ -10,6 +10,7 @@ class Layer
   field :data_value,  type: String
   field :projection,  type: String
   field :attribution,   type: String
+  field :select_by_default, type: Boolean, default: true
   
   embeds_one :style
   embeds_one :filter

@@ -1,0 +1,17 @@
+%tr
+  %td= f.text_field :field, class: 'span12'
+  %td
+    = f.select :handler, ['between', '=', '>=', '>', '<=', '<', 'ColorRamp-3', 'ColorRamp-3Low'], {}, class: 'span12'
+  %td= f.text_field :values, class: 'span12'
+  %td= f.text_field :legendLabel, class: 'span12'
+  = f.fields_for rule.style do |s|
+    %td= s.select :graphicName, ['', 'circle', 'square', 'image'], {}, class: 'span12'
+    %td= s.text_field :externalGraphic, class: 'span12'
+    %td= s.text_field :rotation, class: 'span12'
+    %td= s.text_field :pointRadius, class: 'span12'
+    %td= s.text_field :strokeColor, class: 'span12'
+    %td= s.text_field :strokeWidth, class: 'span12'
+    %td= s.text_field :strokeOpacity, class: 'span12'
+    %td= s.text_field :fillColor, class: 'span12'
+    %td= s.text_field :fillOpacity, class: 'span12'
+    %td= s.text_field :graphicZIndex, class: 'span12'

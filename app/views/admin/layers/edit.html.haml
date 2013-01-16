@@ -1,0 +1,7 @@
+%h1
+  Edit
+  = @layer.name
+.row-fluid
+  .span12
+    = render partial: 'form', locals: { layer: @layer }
+  
