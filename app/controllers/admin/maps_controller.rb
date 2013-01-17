@@ -13,7 +13,7 @@ class Admin::MapsController < AdminController
       if @map.update_attributes(map_params)
         format.html {
           flash[:success] = "Updated map #{@map.title}"
-          redirect_to File.join(@map.url, edit_map_path(@map))
+          redirect_to edit_admin_map_url(@map, host: @map.url)
         }
       else
         flash[:error] = 'Error while updating map'
@@ -54,7 +54,7 @@ class Admin::MapsController < AdminController
       else
         format.html {
           flash[:error] = "There was an error while trying to delete the map"
-          redirect_to edit_admin_map_path(@map)
+          redirect_to edit_admin_map_url(@map, host: @map.url)
         }
       end
     end
