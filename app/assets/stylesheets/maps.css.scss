@@ -77,12 +77,11 @@
     li {
       &.rule { margin-left: 17px; }
       .style { 
-        height: 32px;
         margin-bottom: 5px;
         position: relative;
         input[type="checkbox"] { margin-top: 10px; }
         .icon { display: inline-block; margin: 0; padding:0; }
-        .text { display: inline-block; line-height: 32px; }      
+        .text { display: inline-block; line-height: 32px; overflow: hidden; text-overflow: ellipsis; }      
         .spinner { position: absolute; right: 0; }
       }
     }

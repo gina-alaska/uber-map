@@ -37,30 +37,63 @@ class Layer
     self.slug
   end
   
+  def build_rules(field, override_style = {})
+    return false unless %w[proxy geojson].include? self.data_type
+    
+    values = []
+    self.parsed_data['features'].each do |feature|
+      values << feature['properties'][field]
+    end
+    values.uniq!.compact!.sort!
+    values.unshift nil # put the else rule first
+    
+    rule_style = Style.new(self.style.attributes)
+    override_style.each { |k,v| rule_style.send("#{k}=", v) }
+    
+    values.each do |v|
+      handler = v.nil? ? 'ELSE' : '~'
+      r = self.rules.build(
+            field: field, 
+            handler: handler, 
+            values: v || '', 
+            legendLabel: v || 'Default', 
+            style: v.nil? ? Style.new(self.style.attributes) : rule_style)
+    end
+  end
+  
+  def parsed_data
+    case self.data_type.to_sym
+    when :proxy
+      d, ext = self.data_value.split('.').last.match(/([^?]*)(.*)/).to_a
+      
+      response = Net::HTTP.get(URI.parse(self.data_value))
+      if ext.to_sym == :geojson or ext.to_sym == :json
+        JSON.parse(response)
+      else
+        response
+      end
+    when :geojson
+      JSON.parse(self.data_value)
+    when :gpx
+      self.data_value
+    when :tiles
+      self.data_value
+    else
+      raise "Unhandled data type #{self.data_typ}"
+    end
+  end
+  
   def as_json(*args)
     data = super
     data[:type] = self.data_type
     data.delete('data_type')
     data.delete('data_value')
     
-    case self.data_type.to_sym
-    when :proxy
-      d, ext = self.data_value.split('.').last.match(/([^?]*)(.*)/).to_a
-      
-      response = Net::HTTP.get(URI.parse(self.data_value))
-      case ext.to_sym
-      when :geojson
-        data[:type] = :geojson
-        data[:geojson] = JSON.parse(response)
-      else
-        data[:type] = ext.to_sym
-        data[:geojson] = response
-      end
-    when :gpx
-    when :geojson
-      data[:geojson] = JSON.parse(self.data_value)
+    if self.data_type.to_sym == :proxy
+      data[:type] = 'geojson'
+      data[:geojson] = self.parsed_data
     else
-      data[self.data_type] = self.data_value
+      data[self.data_type.to_sym] = self.parsed_data
     end
     
     data[:rules] = self.rules.as_json

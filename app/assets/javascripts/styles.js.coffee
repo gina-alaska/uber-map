@@ -130,6 +130,22 @@ class @StyleBuilder
         }),
         symbolizer: style
       })
+      
+    "~": (field, values, style) ->
+      new OpenLayers.Rule({
+        filter: new OpenLayers.Filter.Comparison({
+          type: OpenLayers.Filter.Comparison.LIKE,
+          property: field,
+          value: values[0]
+        }),
+        symbolizer: style
+      })
+      
+    "ELSE": (field, values, style) ->
+      new OpenLayers.Rule({
+        elseFilter: true,
+        symbolizer: style
+      })
   }
   
   buildStyles: (config) ->

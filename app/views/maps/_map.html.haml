@@ -1,7 +1,7 @@
 #map-container.row-fluid
   #map.span9
   #legends.span3
-    %h4= "#{active_map.title} Legend"
+    %h4= "#{active_map.title} legend"
     %ul.legend.nav
       - active_map.layers.each do |layer|
         = render 'legend', layer: layer

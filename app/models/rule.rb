@@ -14,10 +14,11 @@ class Rule
   end
   
   def values=(v)
-    nv = v.gsub(/\s+/,'').split(',')
+    v = v.gsub(/\s+/,'') if handler == 'BETWEEN'
+    v = v.split(',')
     logger.info '**************'
-    logger.info nv
-    write_attribute(:values, nv)
+    logger.info v
+    write_attribute(:values, v)
   end  
   
   def as_json(*args)
