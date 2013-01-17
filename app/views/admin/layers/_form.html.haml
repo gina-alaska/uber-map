@@ -47,6 +47,11 @@
                   = f.file_field :upload, class: 'input-xlarge'
                   
       .control-group
+        = f.label :popup_template, class: 'control-label'
+        .controls
+          = f.text_area :popup_template, rows: 5, class: 'span12'
+      
+      .control-group
         .controls
           = f.label :select_by_default do
             = f.check_box :select_by_default

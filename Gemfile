@@ -15,7 +15,8 @@ gem 'rgeo'
 gem 'rgeo-geojson'
 gem 'activerecord-postgis-adapter'
 gem 'quiet_assets'
-
+gem 'html-pipeline'
+gem 'liquid'
 gem 'omniauth-openid'
 
 # Gems used only for assets and not required

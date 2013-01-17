@@ -73,14 +73,14 @@ class @LayerFeed
   #end createLayer
   
   tiles: (data) ->
-    config = { attribution: data.attribution, isBaseLayer: false, opacity: 0.5, displayInLayerSwitcher: false }
-    layer = new OpenLayers.Layer.XYZ(data.name, data.tiles, config)
+    config = { attribution: data.attribution, isBaseLayer: false, opacity: 0.5, displayInLayerSwitcher: false, url: data.url }
+    layer = new OpenLayers.Layer.XYZ(data.slug, data.tiles, config)
     
     layer
   #end tiles
     
   vector: (data) ->
-    config = { attribution: data.attribution, wrapDateLine: true, rendererOptions: {zIndexing: true}, displayInLayerSwitcher: false }
+    config = { attribution: data.attribution, wrapDateLine: true, rendererOptions: {zIndexing: true}, displayInLayerSwitcher: false, url: data.url }
     features = @parseFeatures(data)
     
     if data.style || data.rules
@@ -92,7 +92,7 @@ class @LayerFeed
     # dateFilter = filters.date('start_time', Date.parse('2012/06/21'), Date.parse('2012/06/21 23:59:59'), features);
     # config.strategies = [filters.buildStrat(dateFilter)];
     # 
-    layer = new OpenLayers.Layer.Vector(data.name || 'Vector', config)
+    layer = new OpenLayers.Layer.Vector(data.slug || 'Vector', config)
     layer.addFeatures(features)
     
     layer

@@ -4,6 +4,7 @@ Ubermap::Application.routes.draw do
   resources :layers do
     member do 
       get :legend
+      get :template
     end
   end
   

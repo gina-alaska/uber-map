@@ -25,7 +25,7 @@ class @Map
       
     
       $(document).on('click', '.style input[type="checkbox"]', (e) =>
-        name = $(e.target).data('name')
+        name = $(e.target).data('slug')
         checked = $(e.target).attr('checked')
         @toggleLayer(name, checked)
       )
@@ -54,18 +54,19 @@ class @Map
     layers = []
     for checkbox in $('.style input[type="checkbox"]')
       do (checkbox) =>
-        feed = new LayerFeed(@uber.map.projection, $(checkbox).data('projection'))
+        feeds = new LayerFeed(@uber.map.projection, $(checkbox).data('projection'))
         filters = new FilterBuilder
       
         @spinner("#style-#{$(checkbox).data('slug')} .spinner")
       
         request = $.get($(checkbox).data('url'), (data) =>
           try
-            layer = feed.createLayer(data)
+            layer = feeds.createLayer(data)
+            layer.setVisibility($(checkbox).attr('checked'))
             @uber.map.addLayer layer
             layers.push layer
           catch err
-            @uber.message "Error while reading features from #{$(checkbox).data('name')}"        
+            @uber.message "Error while reading features from #{$(checkbox).data('slug')}"        
         )
       
         request.complete =>
@@ -74,18 +75,28 @@ class @Map
     @feed_select_control.setLayer(layers)
   
   onFeatureSelect: (feature) =>
-    content = for key, value of feature.attributes when value isnt null
-      "<div class=\"item item-#{key}\"><label>#{key.replace(/_/g, ' ')}:</label> #{value}</div>"
-    #end for
-      
-    content = '<div class="feature-popup-content">' + content.join('') + '</div>'
-          
-    popup = new OpenLayers.Popup.FramedCloud("popup-"+feature.id, 
-       feature.geometry.getBounds().getCenterLonLat(),
-       null,
-       content, null, true);
-    @uber.map.addPopup(popup)
-    @feed_select_control.unselectAll()  
+    slug = feature.layer.name
+    
+    $.get "/layers/#{slug}/template", { attributes: feature.attributes }, (content) =>
+      popup = new OpenLayers.Popup.FramedCloud("popup-"+feature.id, 
+         feature.geometry.getBounds().getCenterLonLat(),
+         null,
+         content, null, true);
+      @uber.map.addPopup(popup)
+      @feed_select_control.unselectAll()        
+    
+    # content = for key, value of feature.attributes when value isnt null
+    #   "<div class=\"item item-#{key}\"><label>#{key.replace(/_/g, ' ')}:</label> #{value}</div>"
+    # #end for
+    #   
+    # content = '<div class="feature-popup-content">' + content.join('') + '</div>'
+    #       
+    # popup = new OpenLayers.Popup.FramedCloud("popup-"+feature.id, 
+    #    feature.geometry.getBounds().getCenterLonLat(),
+    #    null,
+    #    content, null, true);
+    # @uber.map.addPopup(popup)
+    # @feed_select_control.unselectAll()  
   
   spinner: (el, disable = false) ->
     if disable

@@ -1,6 +1,63 @@
 module LayersHelper
   GRAPHIC_SIZE = 32
   
+  def popup_template(layer, data)
+    context = {
+      data: data,
+      whitelist: HTML::Pipeline::SanitizationFilter::WHITELIST.merge(
+        :attributes => {
+          'a' => ['href', 'class', 'data-slide'],
+          'img' => ['src', 'alt'],
+          'div' => ['itemscope', 'itemtype', 'style'],
+          :all => ['abbr', 'accept', 'accept-charset',
+                    'accesskey', 'action', 'align', 'alt', 'axis',
+                    'border', 'cellpadding', 'cellspacing', 'char',
+                    'charoff', 'charset', 'checked', 'cite',
+                    'clear', 'cols', 'colspan', 'color',
+                    'compact', 'coords', 'datetime', 'dir',
+                    'disabled', 'enctype', 'for', 'frame',
+                    'headers', 'height', 'hreflang',
+                    'hspace', 'ismap', 'label', 'lang',
+                    'longdesc', 'maxlength', 'media', 'method',
+                    'multiple', 'name', 'nohref', 'noshade',
+                    'nowrap', 'prompt', 'readonly', 'rel', 'rev',
+                    'rows', 'rowspan', 'rules', 'scope',
+                    'selected', 'shape', 'size', 'span',
+                    'start', 'summary', 'tabindex', 'target',
+                    'title', 'type', 'usemap', 'valign', 'value',
+                    'vspace', 'width', 'itemprop', 'id', 'class']
+        }
+      )
+    }
+  
+    if layer.popup_template
+      pipeline = HTML::Pipeline.new([
+        LiquidFilter,
+        HTML::Pipeline::AutolinkFilter,
+        HTML::Pipeline::SanitizationFilter
+      ], context)
+    
+      content_tag('div', class: 'feature-popup-content') do
+        pipeline.call(layer.popup_template)[:output].to_s.html_safe
+      end.html_safe
+    else
+      default_popup_template(data)
+    end
+  end
+  
+  def default_popup_template(data)
+    content_tag('div', class: 'feature-popup-content') do
+      output = ''
+      data.each do |k,v|
+        next if v.nil? or v.empty?
+        output << content_tag('div', class: 'item') do
+          "<label>#{k.humanize}:</label> #{v}".html_safe
+        end
+      end
+      output.html_safe
+    end
+  end
+  
   def legend_text(rule)
     if not rule.legendLabel.empty?
       rule.legendLabel
