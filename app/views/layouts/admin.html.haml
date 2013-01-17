@@ -14,7 +14,7 @@
             %li= link_to 'New Map', new_admin_map_path
             %li= link_to 'View Map', "http://#{active_map.try(:url)}/"
             %li= link_to 'Map Settings', edit_admin_map_path(active_map) unless active_map.nil?
-            %li{ class: current_page?(layers_path) ? 'active' : '' }= link_to 'Layers', layers_path
+            %li{ class: current_page?(layers_path) ? 'active' : '' }= link_to 'Layers', admin_layers_path
           = link_to 'Delete', admin_map_path(active_map), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger pull-right'
     
     #content.container-fluid
