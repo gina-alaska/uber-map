@@ -1,16 +1,40 @@
-#map-container.row-fluid
-  #map.span9
-  #legends.span3
-    %h4= "#{active_map.title} legend"
-    %ul.legend.nav
-      - active_map.layers.each do |layer|
-        = render 'legend', layer: layer
-        = render 'filter', layer: layer
-
+#map-container
+  #map
+  #sidebar.accordion
+    .accordion-group
+      .accordion-heading.accordion-toggle{ data: { toggle: 'collapse', parent: '#sidebar', target: '#legends'} }
+        %h4= "#{active_map.title} legend"
+      #legends.accordion-body.collapse.in
+        .accordion-inner
+          %ul.legend.nav
+            - active_map.layers.each do |layer|
+              = render 'legend', layer: layer
+              = render 'filter', layer: layer
+    .accordion-group
+      .accordion-heading.accordion-toggle{ data: { toggle: 'collapse', parent: '#sidebar', target: '#help'} }
+        %h4 Help
+      #help.accordion-body.collapse
+        .accordion-inner
+          %dl
+            %dt 
+              .btn.btn-primary.btn-small
+                %i.icon-info-sign.icon-white
+              Identify Tool
+            %dd 
+              By activating the identify tool you can click on map points, polygons and other features to view additional information or attributes.
+            %br/
+            %dt Quick Zoom
+            %dd Hold the shift button down and click-drag across the map to quickly zoom into an area of interest
 #map-messages
 #map-tools
-  = link_to '#', :id => 'map-identify', :class => 'btn btn-small btn-primary', 'data-toggle'=>"button" do
-    %i.icon-info-sign.icon-white
+  %p
+    = link_to '#', :id => 'map-identify', :class => 'btn btn-small btn-primary', 'data-toggle'=>"button" do
+      %i.icon-info-sign.icon-white
+  
+  %p
+    .btn.btn-small.btn-success{ data: { toggle: 'collapse', parent: '#sidebar', target: '#help' } }
+      %i.icon-question-sign.icon-white
+  
 
 :javascript
   #{yield :styles_javascript}    

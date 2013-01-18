@@ -51,16 +51,11 @@
   background-color: $navbarInverseBackground; 
   top: 40px;
   bottom: 0;
+  width: 100%;
   position: absolute;
 }
 
 #legends {
-  overflow: auto;
-  height: 100%;
-  color: $navbarInverseText;
-  background-color: $navbarInverseBackground;
-  padding-right: 20px;
-
   ul.filters {
     margin-bottom: 0px; 
     margin-left: 10px;  

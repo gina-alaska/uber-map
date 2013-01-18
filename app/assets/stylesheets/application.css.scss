@@ -48,6 +48,42 @@ html, body, #content {
   height: 100%;
   background: #888;
   img { max-width: none; }
+  top:0;
+  left: 0;
+  right: 300px;
+  position: absolute;
+  display: block;
+}
+
+#sidebar {
+  overflow: auto;
+  color: $navbarInverseText;
+  border-left: 1px solid $navbarInverseBackgroundHighlight;
+  border-right: 1px solid $navbarInverseBackgroundHighlight;
+  background-color: $navbarInverseBackground;
+  padding: 0;
+  margin: 0;
+  width: 298px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: block;
+  
+  .accordion-heading h4 {
+    padding: 8px 15px;
+    margin: 0;
+  }
+}
+
+#sidebar .accordion-group {
+  border: none;
+  @include border-radius(0);
+  border-top: 1px solid $navbarInverseBackgroundHighlight;
+}
+
+#sidebar .accordion-inner {
+  border-top: 1px solid $navbarInverseBackgroundHighlight;
 }
 
 #map-buttons {
