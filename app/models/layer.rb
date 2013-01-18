@@ -31,32 +31,46 @@ class Layer
   
   #sort this way by default so that tile layers show up on bottom
   #TODO: find a better way to do this
-  default_scope desc(:data_type)
+  default_scope asc(:name).desc(:data_type)
   
   def to_param
     self.slug
   end
   
-  def classify_field(field, override_style = {})
+  def classify_field(field, override_style = {}, opts = {})
     return false unless %w[proxy geojson].include? self.data_type
+    
+    opts[:except] ||= []
+    opts[:only] ||= []
     
     values = []
     self.parsed_data['features'].each do |feature|
-      values << feature['properties'][field].try(:downcase)
+      value = feature['properties'][field]
+      next if opts[:only].include? value and !opts[:except].include? value
+      
+      value = value.downcase if value.respond_to? :downcase
+      values << value 
+      values.uniq!
     end
-    values.uniq!.compact!.sort!
-    values.unshift nil # put the else rule first
+    
+    values.uniq.compact.sort!
+    values.unshift nil if opts[:else] # put the else rule first
     
     rule_style = Style.new(self.style.attributes)
     override_style.each { |k,v| rule_style.send("#{k}=", v) }
     
+    
     values.each do |v|
       handler = v.nil? ? 'ELSE' : '~'
+      
+      label = v.respond_to?(:humanize) ? v.humanize : v
+      label ||= 'Default'
+      
       r = self.rules.build(
             field: field, 
             handler: handler, 
-            values: v || '', 
-            legendLabel: v.try(:humanize) || 'Default', 
+            values: v.to_s || '', 
+            legendLabel: label, 
             style: v.nil? ? Style.new(self.style.attributes) : rule_style)
     end
   end

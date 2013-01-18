@@ -66,9 +66,13 @@ class @Map
             @uber.map.addLayer layer
             layers.push layer
           catch err
-            @uber.message "Error while reading features from #{$(checkbox).data('slug')}"        
+            @uber.message "Error while reading features for #{$(checkbox).data('slug')}"        
         )
       
+        request.error =>
+          @spinner("#style-#{$(checkbox).data('slug')} .spinner", true)
+          @uber.message "Error while downloading features for #{$(checkbox).data('slug')}"        
+          
         request.complete =>
           @spinner("#style-#{$(checkbox).data('slug')} .spinner", true)
     
