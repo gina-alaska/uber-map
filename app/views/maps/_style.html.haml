@@ -1,10 +1,13 @@
-%li{id:"style-#{style.layer.slug}"}
-  %label.checkbox.style
-    .row-fluid
-      .span2
-        = check_box_tag "style-checkbox-#{style.id}", 'on', style.layer.select_by_default, data: { name: style.layer.name, url: layer_url(style.layer, format: 'json'), projection: style.layer.projection, slug: style.layer.slug }
-        .icon
-      .span9.text 
-        = style.layer.name
-        = stored_style_javascript("style-#{style.layer.slug} .icon", style)
-      .span1.spinner
+%li.checkbox.style{id:"style-#{style.layer.slug}"}
+  .row-fluid
+    .span1
+      = check_box_tag "style-checkbox-#{style.id}", 'on', style.layer.select_by_default, data: { name: style.layer.name, url: layer_url(style.layer, format: 'json'), projection: style.layer.projection, slug: style.layer.slug }
+      .icon
+    .span10.text{data: { toggle: 'collapse', target: "#rules-#{style.layer.slug}" }}
+      = style.layer.name
+      = stored_style_javascript("style-#{style.layer.slug} .icon", style)
+    .span1.spinner
+  
+  - if style.layer.rules.count > 0
+    %ul.nav.collapse{id: "rules-#{style.layer.slug}", class: (style.layer.select_by_default ? 'in' : '')}
+      = render partial: 'rule', collection: style.layer.rules
