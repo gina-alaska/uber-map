@@ -37,12 +37,12 @@ class Layer
     self.slug
   end
   
-  def build_rules(field, override_style = {})
+  def classify_field(field, override_style = {})
     return false unless %w[proxy geojson].include? self.data_type
     
     values = []
     self.parsed_data['features'].each do |feature|
-      values << feature['properties'][field]
+      values << feature['properties'][field].try(:downcase)
     end
     values.uniq!.compact!.sort!
     values.unshift nil # put the else rule first
@@ -56,7 +56,7 @@ class Layer
             field: field, 
             handler: handler, 
             values: v || '', 
-            legendLabel: v || 'Default', 
+            legendLabel: v.try(:humanize) || 'Default', 
             style: v.nil? ? Style.new(self.style.attributes) : rule_style)
     end
   end
