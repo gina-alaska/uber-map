@@ -19,12 +19,13 @@ class @Map
       )
       
       $('#map-identify').popover('show')
+      
       setTimeout(() ->
         $('#map-identify').popover('hide')
       , 15000)
       
     
-      $(document).on('click', '.style input[type="checkbox"]', (e) =>
+      $(document).on('click', '.legend input[type="checkbox"]', (e) =>
         name = $(e.target).data('slug')
         checked = $(e.target).attr('checked')
         @toggleLayer(name, checked)

@@ -33,6 +33,11 @@ $navbarLinkBackgroundHover: darken($navbarBackground, 10%);
     color: $navbarText;
     display: inline; 
   }
+  
+  .popover {
+    color:#000;
+    z-index: 5000000;
+  }
 }
 
 .olMapViewport .olControlZoom a {
