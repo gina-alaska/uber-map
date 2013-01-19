@@ -75,8 +75,9 @@ html, body, #content {
   right: 0;
   display: block;
   
-  .accordion-heading h4 {
+  .accordion-heading h5 {
     padding: 8px 15px;
+    font-weight: 200;
     margin: 0;
   }
 }

@@ -30,6 +30,12 @@ class @Map
         checked = $(e.target).attr('checked')
         @toggleLayer(name, checked)
       )
+      
+      $('#sidebar .collapse').on 'hidden', -> 
+        $(this).parent().find('.accordion-heading i.icon-chevron-up').removeClass('icon-chevron-up').addClass('icon-chevron-down')
+      $('#sidebar .collapse').on 'shown', -> 
+        $(this).parent().find('.accordion-heading i.icon-chevron-down').removeClass('icon-chevron-down').addClass('icon-chevron-up')
+      
     
       $('#map-tools a').tooltip({ placement: 'bottom' })
     )

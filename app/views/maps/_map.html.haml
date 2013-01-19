@@ -3,7 +3,9 @@
   #sidebar.accordion
     .accordion-group
       .accordion-heading.accordion-toggle{ data: { toggle: 'collapse', parent: '#sidebar', target: '#legends'} }
-        %h4= "#{active_map.title} legend"
+        %h5
+          %i.icon-white.icon-chevron-up
+          Legend
       #legends.accordion-body.collapse.in
         .accordion-inner
           %ul.legend.nav
@@ -12,7 +14,9 @@
               = render 'filter', layer: layer
     .accordion-group
       .accordion-heading.accordion-toggle{ data: { toggle: 'collapse', parent: '#sidebar', target: '#help'} }
-        %h4 Help
+        %h5 
+          %i.icon-white.icon-chevron-down
+          Help
       #help.accordion-body.collapse
         .accordion-inner
           = render 'help'
