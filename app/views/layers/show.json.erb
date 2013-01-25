@@ -1,0 +1,3 @@
+<% cache([@layer, format: :json], expires_in: 48.hours) do %>
+  <%= @layer.to_json.html_safe %>
+<% end %>

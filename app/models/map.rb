@@ -1,5 +1,6 @@
 class Map
   include Mongoid::Document
+  include Mongoid::Timestamps
   
   field :slug,        type: String
   field :title,       type: String

@@ -3,6 +3,7 @@ require 'uri'
 
 class Layer
   include Mongoid::Document
+  include Mongoid::Timestamps
   
   field :slug,        type: String
   field :name,        type: String
@@ -17,7 +18,10 @@ class Layer
   embeds_one :filter
   embeds_many :rules
   
-  has_and_belongs_to_many :maps  
+  has_many :children, class_name: 'Layer', inverse_of: :parent
+  belongs_to :parent, class_name: 'Layer', inverse_of: :children, touch: true
+  
+  has_and_belongs_to_many :maps
   # embeds_one :geojson
   # embeds_one :gpx
   
@@ -37,11 +41,29 @@ class Layer
     self.slug
   end
   
-  def classify_field(field, override_style = {}, opts = {})
+  def split_on_field(field, opts={})
+    return false unless %w[proxy geojson].include? self.data_type
+    
+    self.get_unique_values_for(field, opts).collect do |v|
+      Layer.create(
+        name: v.humanize, 
+        slug: "#{self.slug}-#{v.parameterize}", 
+        data_type: self.data_type, 
+        data_value: URI.escape("#{self.data_value}?properties[#{field}]=#{v}"), 
+        style: Style.new(self.style.attributes),
+        filter: Filter.new(self.filter.attributes),
+        projection: self.projection,
+        select_by_default: true,
+        parent: self
+      )
+    end    
+  end
+  
+  def get_unique_values_for(field, opts={})
     return false unless %w[proxy geojson].include? self.data_type
     
     opts[:except] ||= []
-    opts[:only] ||= []
+    opts[:only] ||= []    
     
     values = []
     self.parsed_data['features'].each do |feature|
@@ -53,12 +75,21 @@ class Layer
       values.uniq!
     end
     
+    values
+  end
+    
+  def classify_field(field, override_style = {}, opts = {})
+    return false unless %w[proxy geojson].include? self.data_type
+    
+    values = self.get_unique_values_for(field, opts)
+    
     values.uniq.compact.sort!
     values.unshift nil if opts[:else] # put the else rule first
     
     rule_style = Style.new(self.style.attributes)
     override_style.each { |k,v| rule_style.send("#{k}=", v) }
     
+    uri.object = 
     
     values.each do |v|
       handler = v.nil? ? 'ELSE' : '~'
@@ -78,16 +109,22 @@ class Layer
   def parsed_data
     case self.data_type.to_sym
     when :proxy
+      JSON.parse(self.raw_data)
+    when :geojson
+      JSON.parse(self.raw_data)
+    else
+      self.raw_data
+    end
+  end
+  
+  def raw_data
+    case self.data_type.to_sym
+    when :proxy
       d, ext = self.data_value.split('.').last.match(/([^?]*)(.*)/).to_a
       
-      response = Net::HTTP.get(URI.parse(self.data_value))
-      if ext.to_sym == :geojson or ext.to_sym == :json
-        JSON.parse(response)
-      else
-        response
-      end
+      Net::HTTP.get(URI.parse(self.data_value))
     when :geojson
-      JSON.parse(self.data_value)
+      self.data_value
     when :gpx
       self.data_value
     when :tiles
