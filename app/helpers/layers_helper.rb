@@ -7,7 +7,7 @@ module LayersHelper
       whitelist: HTML::Pipeline::SanitizationFilter::WHITELIST.merge(
         :attributes => {
           'a' => ['href', 'class', 'data-slide'],
-          'img' => ['src', 'alt'],
+          'img' => ['src', 'alt', 'style'],
           'div' => ['itemscope', 'itemtype', 'style'],
           :all => ['abbr', 'accept', 'accept-charset',
                     'accesskey', 'action', 'align', 'alt', 'axis',
