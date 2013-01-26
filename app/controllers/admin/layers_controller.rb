@@ -50,6 +50,8 @@ class Admin::LayersController < AdminController
     
     respond_to do |format|
       if @layer.update_attributes(layer_params)
+        @layer.maps.each(&:touch)
+        
         flash[:success] = "Successfully updated layer #{@layer.name}"
         format.html { 
           if request.xhr?
