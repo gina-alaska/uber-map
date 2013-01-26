@@ -72,6 +72,7 @@ class @Map
             layer.setVisibility($(checkbox).attr('checked'))
             @uber.map.addLayer layer
             layers.push layer
+            @feed_select_control.setLayer(layers)
           catch err
             @uber.message "Error while reading features for #{$(checkbox).data('slug')}"        
         )
@@ -83,7 +84,6 @@ class @Map
         request.complete =>
           @spinner("#style-#{$(checkbox).data('slug')} .spinner", true)
     
-    @feed_select_control.setLayer(layers)
   
   onFeatureSelect: (feature) =>
     slug = feature.layer.name
