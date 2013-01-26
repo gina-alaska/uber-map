@@ -20,6 +20,30 @@
   }*/
 }
 
+ul.layers {
+  padding:0;
+  margin-top: 10px;
+  border: 1px solid #EFEFEF;
+  @include border-radius(5px);
+  
+  .header { font-weight: bold; }
+  
+  li {
+    line-height: 30px;
+    padding: 5px;
+    border-bottom: 1px solid #EFEFEF;
+  }
+  
+  li:last {
+    border-bottom: none;
+  }
+}
+
+.layer-children {
+  .name { padding-left: 20px; }
+}
+
+
 .subnav {
   @extend .navbar;
   

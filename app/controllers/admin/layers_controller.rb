@@ -1,6 +1,6 @@
 class Admin::LayersController < AdminController
   def index
-    @layers = Layer.all
+    @layers = Layer.roots
     
     respond_to do |format|
       format.html

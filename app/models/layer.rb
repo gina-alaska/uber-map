@@ -5,6 +5,8 @@ class Layer
   include Mongoid::Document
   include Mongoid::Timestamps
   
+  acts_as_nested_set
+  
   field :slug,        type: String
   field :name,        type: String
   field :data_type,   type: String
@@ -18,8 +20,8 @@ class Layer
   embeds_one :filter
   embeds_many :rules
   
-  has_many :children, class_name: 'Layer', inverse_of: :parent, dependent: :destroy
-  belongs_to :parent, class_name: 'Layer', inverse_of: :children, touch: true
+  # has_many :children, class_name: 'Layer', inverse_of: :parent, dependent: :destroy
+  # belongs_to :parent, class_name: 'Layer', inverse_of: :children, touch: true
   
   has_and_belongs_to_many :maps
   # embeds_one :geojson

@@ -30,7 +30,7 @@ module LayersHelper
       )
     }
   
-    if layer.popup_template
+    if !layer.popup_template.nil? and !layer.popup_template.empty?
       pipeline = HTML::Pipeline.new([
         LiquidFilter,
         HTML::Pipeline::AutolinkFilter,

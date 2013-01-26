@@ -1,13 +1,12 @@
-#new_layer
-  %h1.pull-left Layers
-  = link_to 'Create Layer', new_layer_path, class: 'btn btn-primary pull-right'
-  
-%table.table.table-striped.table-bordered.table-condensed
-  %thead
-    %tr
-      %th Name
-      %th Slug
-      %th Type
-      %th Actions
-  %tbody
-    = render @layers
+%ul.nav.nav-list.layers
+  %li.header
+    .row-fluid
+      .span5 Name
+      .span4 Slug
+      .span1 Type
+      .span2 Actions
+  - @layers.each do |layer|
+    = render layer
+    - if layer.children?
+      .layer-children.collapse{id: "children-of-#{layer.slug}"}
+        = render layer.children 

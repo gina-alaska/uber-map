@@ -18,6 +18,7 @@ gem 'quiet_assets'
 gem 'html-pipeline'
 gem 'liquid'
 gem 'omniauth-openid'
+gem 'mongoid_nested_set'
 
 # Gems used only for assets and not required
 # in production environments by default.
