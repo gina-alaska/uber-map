@@ -5,7 +5,8 @@
       .icon
     .span10.text{data: { toggle: 'collapse', target: "#rules-#{style.layer.slug}" }}
       = style.layer.name
-      = stored_style_javascript("style-#{style.layer.slug} .icon", style)
+      :javascript
+        #{legend_style_javascript("style-#{style.layer.slug} .icon", style)}
     .span1.spinner
   
   - if style.layer.rules.count > 0

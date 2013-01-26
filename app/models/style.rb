@@ -24,6 +24,8 @@ class Style
       circle_legend
     when 'square'
       square_legend
+    else
+      square_legend
     end
   end
   

@@ -3,4 +3,5 @@
     .span1
     .span2.icon
     .span9.text= legend_text(rule)
-  = stored_rule_javascript("rule-#{rule.id} .icon", rule)
+  :javascript
+    #{legend_rule_javascript("rule-#{rule.id} .icon", rule)}

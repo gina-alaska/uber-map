@@ -1,23 +1,25 @@
 #map-container
   #map
   #sidebar.accordion
-    .accordion-group
-      .accordion-heading.accordion-toggle{ data: { toggle: 'collapse', parent: '#sidebar', target: '#legends'} }
-        %h5
-          %i.icon-white.icon-chevron-up
-          Legend
-      #legends.accordion-body.collapse.in
-        .accordion-inner
-          %ul.legend.nav
-            - active_map.layers.each do |layer|
-              - cache layer do
+    - cache([:legend, active_map]) do
+      .accordion-group
+        .accordion-heading.accordion-toggle{ data: { toggle: 'collapse', parent: '#sidebar', target: '#legends'} }
+          %h5
+            %i.icon-white.icon-chevron-up
+            Legend
+        #legends.accordion-body.collapse.in
+          .accordion-inner
+            %ul.legend.nav
+              - active_map.layers.each do |layer|
                 - if layer.children.count > 0
                   - layer.children.each do |child|
-                    = render 'legend', layer: child
-                    = render 'filter', layer: child
+                    - cache([:legend, active_map, child]) do
+                      = render 'legend', layer: child
+                      = render 'filter', layer: child
                 - else
-                  = render 'legend', layer: layer
-                  = render 'filter', layer: layer              
+                  - cache([:legend, active_map, layer]) do
+                    = render 'legend', layer: layer
+                    = render 'filter', layer: layer
     .accordion-group
       .accordion-heading.accordion-toggle{ data: { toggle: 'collapse', parent: '#sidebar', target: '#help'} }
         %h5 
@@ -35,7 +37,6 @@
   %p
     .btn.btn-small.btn-success{ data: { toggle: 'collapse', parent: '#sidebar', target: '#help' } }
       %i.icon-question-sign.icon-white
-  
+
 :javascript
-  #{yield :styles_javascript}    
   (new Map()).init('#{active_map.projection}');

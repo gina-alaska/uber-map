@@ -66,15 +66,13 @@ module LayersHelper
     end
   end
 
-  def stored_style_javascript(el, style)
+  def legend_style_javascript(el, style)
     #TODO add support for other types of legend features
     config = style.as_raphael_config
     
-    content_for :styles_javascript do
-      output = "var el = Raphael([$('##{el}')[0], #{Style::GRAPHIC_SIZE}, #{Style::GRAPHIC_SIZE}, #{config.to_json}]);"
-      output << "el.transform('r#{style['rotation']}');" if style['rotation']
-      output.html_safe
-    end
+    output = "var el = Raphael([$('##{el}')[0], #{Style::GRAPHIC_SIZE}, #{Style::GRAPHIC_SIZE}, #{config.to_json}]);"
+    output << "el.transform('r#{style['rotation']}');" if style['rotation']
+    output.html_safe
   end
   
   def style_to_config(style)
@@ -88,14 +86,12 @@ module LayersHelper
     end
   end
 
-  def stored_rule_javascript(el, rule)
+  def legend_rule_javascript(el, rule)
     config = rule.style.as_raphael_config
     # config.merge!(rule.layer.style.as_raphael_config)
     
-    content_for :styles_javascript do
-      output = "var el = Raphael([$('##{el}')[0], #{Style::GRAPHIC_SIZE}, #{Style::GRAPHIC_SIZE}, #{config.to_json}]);"
-      output << "el.transform('r#{style['rotation']}');" if config['rotation']
-      output.html_safe
-    end
+    output = "var el = Raphael([$('##{el}')[0], #{Style::GRAPHIC_SIZE}, #{Style::GRAPHIC_SIZE}, #{config.to_json}]);"
+    output << "el.transform('r#{style['rotation']}');" if config['rotation']
+    output.html_safe
   end
 end
