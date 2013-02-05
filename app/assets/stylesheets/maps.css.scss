@@ -2,19 +2,27 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#map .olControlAttribution {
-  padding: 3px 10px;
-  padding-left: 50px;
-  bottom: 0px;
-  right: 0px;
-  position: absolute;
-  background-color:#FFF;
-  color: black;
-/*  @include text-shadow(rgba(white, 0) 1px 1px 0);*/
-  @include background(linear-gradient(left, rgba(255,255,255,0), rgba(255,255,255,0.8) 10%));
+#map {
+  .olControlAttribution {
+    padding: 3px 10px;
+    padding-left: 50px;
+    bottom: 0px;
+    right: 0px;
+    position: absolute;
+    background-color:#FFF;
+    color: black;
+  /*  @include text-shadow(rgba(white, 0) 1px 1px 0);*/
+    @include background(linear-gradient(left, rgba(255,255,255,0), rgba(255,255,255,0.8) 10%));
   
-  a {
-    color: blue;
+    a {
+      color: blue;
+    }
+  }
+  .olControlScaleLine {
+    @include border-radius(5px);
+    background-color:rgba(255,255,255,0.8);
+    padding:5px;
+    color: #000;
   }
 }
 

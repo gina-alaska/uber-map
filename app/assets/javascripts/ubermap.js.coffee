@@ -24,7 +24,8 @@ class @UberMap
             }
           }),
           new OpenLayers.Control.Zoom(),
-          new OpenLayers.Control.Attribution()
+          new OpenLayers.Control.Attribution(),
+          new OpenLayers.Control.ScaleLine({ geodesic: true })
       ],
       numZoomLevels: 18
     }
