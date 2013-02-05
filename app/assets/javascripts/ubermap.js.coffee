@@ -25,7 +25,8 @@ class @UberMap
           }),
           new OpenLayers.Control.Zoom(),
           new OpenLayers.Control.Attribution(),
-          new OpenLayers.Control.ScaleLine({ geodesic: true })
+          new OpenLayers.Control.ScaleLine({ geodesic: true }),
+          new OpenLayers.Control.MousePosition({ numDigits: 3, displayProjection: 'EPSG:4326', prefix: 'Mouse: ' })
       ],
       numZoomLevels: 18
     }
