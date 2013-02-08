@@ -46,6 +46,14 @@ class @Map
       onSelect: @onFeatureSelect,
       autoActivate: false
     })
+    
+    @feed_select_control = new OpenLayers.Control.WMSGetFeatureInfo({
+      url: 'http://wms.dev/', 
+      title: 'Identify features by clicking',
+      queryVisible: true,
+      autoActivate: true
+    })
+    
     @uber.map.addControl(@feed_select_control)
     
     $(document).on('click', '#map-identify', (e) =>
@@ -72,7 +80,7 @@ class @Map
             layer.setVisibility($(checkbox).attr('checked'))
             @uber.map.addLayer layer
             layers.push layer
-            @feed_select_control.setLayer(layers)
+            # @feed_select_control.layers = layers
           catch err
             @uber.message "Error while reading features for #{$(checkbox).data('slug')}"        
         )

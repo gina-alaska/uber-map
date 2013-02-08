@@ -24,7 +24,7 @@
           = f.select :projection, ['EPSG:4326', 'EPSG:3338', 'ORTHOGRAPHIC']
         
       .control-group
-        = f.select :data_type, ['upload', 'geojson', 'gpx', 'tiles', 'proxy'], {}, class: 'control-label'
+        = f.select :data_type, ['upload', 'geojson', 'gpx', 'wms', 'tiles', 'proxy'], {}, class: 'control-label'
         #data
           .controls
             - case (params[:data_type].nil? ? layer.data_type.try(:to_sym) : params[:data_type].to_sym)
@@ -38,6 +38,15 @@
               = f.text_field :data_value, class: 'span8', placeholder: "Enter a url..."
               %span.help-block 
                 Example: http://tiles.gina.alaska.edu/tilesrv/bdl/${x}/${y}/${z}
+            - when :wms
+              = f.text_field :data_value, class: 'span8', placeholder: "Enter a url..."
+              %span.help-block 
+                Example: http://wms.alaskamapped.org/bdl?
+              
+              .control-group.form-horizontal
+                = f.label :wms_layers, class: 'control-label'
+                .controls
+                  = f.text_field :wms_layers, class: 'span12', placeholder: "Enter layer names to access"
             - else
               .fileupload.fileupload-new{ "data-fileupload"=>"file" }
                 .fileupload-preview.uneditable-input

@@ -11,10 +11,13 @@ class Layer
   field :name,        type: String
   field :data_type,   type: String
   field :data_value,  type: String
+  field :wms_layers,  type: String
   field :projection,  type: String
   field :attribution,   type: String
   field :popup_template, type: String
   field :select_by_default, type: Boolean, default: true
+  
+  index({ name: 1, data_type: -1, lft: 1 })
   
   embeds_one :style
   embeds_one :filter
@@ -130,6 +133,8 @@ class Layer
     when :gpx
       self.data_value
     when :tiles
+      self.data_value
+    when :wms
       self.data_value
     else
       raise "Unhandled data type #{self.data_typ}"

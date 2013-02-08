@@ -65,12 +65,27 @@ class @LayerFeed
   
   createLayer: (data) ->
     switch data.type
+      when 'wms'
+        @wms(data)
       when 'tiles'
         @tiles(data)
       else
         @vector(data)
     #end switch
   #end createLayer
+  
+  wms: (data) ->
+    new OpenLayers.Layer.WMS(
+      data.slug, data.wms, {
+        layers: data.wms_layers,
+        transparent: true
+      }, {
+        wrapDateLine: false,
+        isBaseLayer: false,
+        singleTile: true
+      }
+    )
+  #end wms
   
   tiles: (data) ->
     config = { attribution: data.attribution, isBaseLayer: false, opacity: 0.5, displayInLayerSwitcher: false, url: data.url }
