@@ -38,6 +38,34 @@
   }
 }
 
+#map-query {
+  .modal-body {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+}
+
+.query_results {
+  .accordion-inner {
+    padding: 0;
+  }
+  .request_url {
+    margin-bottom: 5px;
+  }
+  .wms_query_feature {
+    border-bottom: 1px solid #dfdfdf;
+    padding: 5px;
+    h5 { margin: 0; }
+    dl { margin: 0; }
+    .dl-horizontal dt { width: 120px; }
+    .dl-horizontal dd { margin-left: 140px; }
+    
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
 .feature-popup-content {
   label { 
     display: inline-block; 

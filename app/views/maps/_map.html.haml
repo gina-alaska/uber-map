@@ -37,6 +37,12 @@
   %p
     .btn.btn-small.btn-success{ data: { toggle: 'collapse', parent: '#sidebar', target: '#help' } }
       %i.icon-question-sign.icon-white
-
+#map-query.modal.hide.fade{role: 'dialog'}
+  .modal-header
+    %button.close{'data-dismiss' => 'modal'} &times;
+    %h3 Query Results
+  .modal-body
+  .modal-footer
+    %button.btn.pull-right{'data-dismiss' => 'modal'} Close
 :javascript
   (new Map()).init('#{active_map.projection}');

@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 class @Map
-  init: (projection) =>
+  init: (projection, @query_url) =>
     $(document).ready(() =>
       @uber = new UberMap
       @uber.init(projection)  
@@ -42,28 +42,71 @@ class @Map
   #end init
   
   initControls: -> 
-    @feed_select_control = new OpenLayers.Control.SelectFeature([], {
-      onSelect: @onFeatureSelect,
-      autoActivate: false
-    })
+    # @feed_select_control = new OpenLayers.Control.SelectFeature([], {
+    #   onSelect: @onFeatureSelect,
+    #   autoActivate: false
+    # })
+    # 
+    # @feed_select_control = new OpenLayers.Control.WMSGetFeatureInfo({
+    #   url: 'http://wms.dev/', 
+    #   title: 'Identify features by clicking',
+    #   queryVisible: true,
+    #   infoFormat: 'application/json',
+    #   format: new OpenLayers.Format.JSON()
+    # })
+    # 
+    # @feed_select_control.events.register("getfeatureinfo", this, @showInfo)
+    # @feed_select_control.events.register("beforegetfeatureinfo", this, @beforeShowInfo)
     
-    @feed_select_control = new OpenLayers.Control.WMSGetFeatureInfo({
-      url: 'http://wms.dev/', 
-      title: 'Identify features by clicking',
-      queryVisible: true,
-      autoActivate: true
-    })
+    @query_layer = new OpenLayers.Layer.Vector("Query Layer")
+    @query_layer.events.register("beforefeatureadded", this, () =>
+      @query_layer.removeAllFeatures();
+    )
+    @feed_select_control = new OpenLayers.Control.DrawFeature(@query_layer, OpenLayers.Handler.Point)
+    @feed_select_control.events.register("featureadded", this, @showInfo)
+    
     
     @uber.map.addControl(@feed_select_control)
     
     $(document).on('click', '#map-identify', (e) =>
       if $(e.currentTarget).hasClass('active')
-        @feed_select_control.activate()
+        @query_layer.removeAllFeatures();
+        @uber.map.addLayer(@query_layer);
+        @feed_select_control.activate();
       else
         @feed_select_control.deactivate()
+        @uber.map.removeLayer(@query_layer);
       #end if
     );
   #end initControls
+  
+  showInfo: (evt) =>
+    layers = []
+    for layer in @uber.map.layers when layer.CLASS_NAME == 'OpenLayers.Layer.WMS'
+      layers.push(l) for l in layer.params.LAYERS.split(',')
+      
+    params = {
+      LAYERS: layers.join(',')
+      SRS: @uber.map.getProjection().toString()
+      INFO_FORMAT: 'text/html'
+      X: evt.feature.geometry.x
+      Y: evt.feature.geometry.y
+      layout: 0
+    }
+    # OpenLayers.Request.GET({ 
+    #   url: 'http://wms.dev/query'
+    #   params: params
+    #   success: (xhr) =>
+    # })
+    url = OpenLayers.Request.makeSameOrigin("http://wms.dev/query?#{$.param(params)}", '/proxy?url=')
+    # $.get(url).success (response) =>      
+    modal = $('#map-query').modal({ show: true, remote: url })
+    modal.on('hidden', -> 
+      $(this).removeData('modal')
+    )
+    modal.find('.modal-body').html('<div>Loading....</div>')
+    # url = @query_url + '?LAYERS'
+    
   
   initLayers: =>
     layers = []

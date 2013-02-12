@@ -9,6 +9,7 @@ class @UberMap
     
     config = Gina.Projections.get projection
   
+    OpenLayers.ProxyHost = "/proxy?url=";
     @map = new OpenLayers.Map {
       div: 'map',
       projection: config.projection,

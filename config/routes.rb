@@ -27,6 +27,7 @@ Ubermap::Application.routes.draw do
   match '/logout' => 'sessions#destroy', as: 'logout'
   match '/auth/:provider/callback', to: 'sessions#create'
   match 'admin' => 'admin/maps#index'
+  match '/proxy' => 'proxy#index', as: :proxy
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
