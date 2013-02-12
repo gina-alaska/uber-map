@@ -12,3 +12,6 @@
   - if style.layer.rules.count > 0
     %ul.nav.collapse{id: "rules-#{style.layer.slug}", class: (style.layer.select_by_default ? 'in' : '')}
       = render partial: 'rule', collection: style.layer.rules
+  - elsif style.layer.legend?
+    .collapse{id: "rules-#{style.layer.slug}", class: (style.layer.select_by_default ? 'in' : '')}
+      = raw style.layer.get_legend

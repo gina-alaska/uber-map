@@ -12,6 +12,8 @@ class Layer
   field :data_type,   type: String
   field :data_value,  type: String
   field :wms_layers,  type: String
+  field :wms_query_url, type: String
+  field :wms_legend_url, type: String
   field :projection,  type: String
   field :attribution,   type: String
   field :popup_template, type: String
@@ -32,6 +34,8 @@ class Layer
   
   # accepts_nested_attributes_for :style
   
+  after_save :touch_maps
+  
   validates_presence_of :slug
   validates_presence_of :name
   validates_presence_of :data_type
@@ -44,6 +48,10 @@ class Layer
   
   def to_param
     self.slug
+  end
+  
+  def touch_maps
+    self.maps.each(&:touch)
   end
   
   def split_on_field(field, opts={})
@@ -62,6 +70,16 @@ class Layer
         parent: self
       )
     end    
+  end
+  
+  def legend?
+    !self.wms_legend_url.nil? and !self.wms_legend_url.empty?
+  end
+  
+  def get_legend
+    if legend?
+      Net::HTTP.get(URI.parse(self.wms_legend_url))
+    end 
   end
   
   def get_unique_values_for(field, opts={})

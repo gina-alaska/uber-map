@@ -117,6 +117,7 @@ class Admin::LayersController < AdminController
     @layer = Layer.where(slug: params[:id]).first
     
     @map.layers << @layer
+    
     respond_to do |format|
       if @map.save
         format.html {
@@ -143,7 +144,7 @@ class Admin::LayersController < AdminController
   protected
   
   def layer_params
-    layer = params[:layer].slice(:slug, :name, :select_by_default, :popup_template, :data_type, :data_value, :projection, :filter, :attribution, :wms_layers)
+    layer = params[:layer].slice(:slug, :name, :select_by_default, :popup_template, :data_type, :data_value, :projection, :filter, :attribution, :wms_layers, :wms_query_url, :wms_legend_url)
 
     if params[:layer].include?(:upload)
       upload_io = params[:layer][:upload]    
