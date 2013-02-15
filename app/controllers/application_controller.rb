@@ -27,17 +27,20 @@ class ApplicationController < ActionController::Base
     if active_map.nil?
       flash[:error] = "Please create the first map"
       redirect_to new_map_path
+    else
+      if request.host != active_map.url
+        redirect_to "#{request.protocol}#{active_map.url}"
+      end
     end
   end
   
   def subdomain
-    request.subdomains.first || 'fire'
+    request.subdomains.first
   end
 
   def active_map
     @active_map ||= Map.where(slug: subdomain).first
-    @active_map = Map.first if @active_map.nil?
-    @active_map
+    @active_map ||= Map.active.first
   end
   
   def auth_hash
