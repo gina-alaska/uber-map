@@ -98,7 +98,7 @@ class @Map
     #   params: params
     #   success: (xhr) =>
     # })
-    url = OpenLayers.Request.makeSameOrigin("http://wms.dev/query?#{$.param(params)}", '/proxy?url=')
+    url = OpenLayers.Request.makeSameOrigin("http://shire.gina.alaska.edu/query?#{$.param(params)}", '/proxy?url=')
     # $.get(url).success (response) =>      
     modal = $('#map-query').modal({ show: true, remote: url })
     modal.on('hidden', -> 

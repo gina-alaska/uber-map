@@ -39,9 +39,11 @@
 }
 
 #map-query {
+  margin-top: -350px;
   .modal-body {
     padding-top: 5px;
     padding-bottom: 5px;
+    max-height: 600px;
   }
 }
 
