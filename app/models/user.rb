@@ -5,6 +5,8 @@ class User
   field :uid, :type => String
   field :name, :type => String
   field :email, :type => String
+  field :admin, :type => Boolean, default: false
+  
   attr_accessible :provider, :uid, :name, :email
 
   def self.find_with_omniauth(auth)
@@ -21,9 +23,4 @@ class User
       end
     end
   end  
-  
-  def admin?
-    #TODO Fix this!
-    self.email == 'will@alaska.edu'
-  end
 end
